@@ -91,6 +91,14 @@ export default function CardModal({
     'settingsModalColumnSizeLabel',
     'Column Size',
   );
+  const settingsModalSaveButtonText = fetchLabel(
+    'settingsModalSaveButtonText',
+    'Save',
+  );
+  const settingsModalCancelButtonText = fetchLabel(
+    'settingsModalCancelButtonText',
+    'Cancel',
+  );
 
   React.useEffect(() => {
     setComponentProps(componentProps);
@@ -104,6 +112,7 @@ export default function CardModal({
       </ModalHeader>
       <ModalBody className='card-modal-entries'>
         <TypeSpecificParameters
+          mods={mods}
           parameters={componentPropsState}
           onChange={(newState: any) => {
             setComponentProps({
@@ -165,7 +174,7 @@ export default function CardModal({
           }}
           color='primary'
         >
-          Save
+          {settingsModalSaveButtonText}
         </Button>
         <Button
           onClick={() => {
@@ -174,7 +183,7 @@ export default function CardModal({
           }}
           color='secondary'
         >
-          Cancel
+          {settingsModalCancelButtonText}
         </Button>
       </ModalFooter>
     </Modal>

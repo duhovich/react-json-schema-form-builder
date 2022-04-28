@@ -19,9 +19,11 @@ import type { CardBody, Parameters, Mods, FormInput } from '../types';
 
 // specify the inputs required for a string type object
 function CardArrayParameterInputs({
+  mods,
   parameters,
   onChange,
 }: {
+  mods: Mods,
   parameters: Parameters,
   onChange: ({ [string]: any }) => void,
 }) {

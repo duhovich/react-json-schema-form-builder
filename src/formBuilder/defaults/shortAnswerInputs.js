@@ -9,43 +9,167 @@ import { getRandomId } from '../utils';
 import type { Parameters, FormInput, Mods } from '../types';
 import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
-const formatDictionary = {
-  '': 'None',
-  email: 'Email',
-  hostname: 'Hostname',
-  uri: 'URI',
-  regex: 'Regular Expression',
-};
-
-const formatTypeDictionary = {
-  email: 'email',
-  url: 'uri',
-};
-
-const autoDictionary = {
-  '': 'None',
-  email: 'Email',
-  username: 'User Name',
-  password: 'Password',
-  'street-address': 'Street Address',
-  country: 'Country',
-};
-
 // specify the inputs required for a string type object
 function CardShortAnswerParameterInputs({
+  mods,
   parameters,
   onChange,
 }: {
+  mods: Mods,
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
   const [elementId] = useState(getRandomId());
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+  const fetchWidespread = (
+    widespread: string,
+    defaultWidespread: string,
+  ): string => {
+    return mods &&
+      mods.widespreadWords &&
+      typeof mods.widespreadWords[widespread] === 'string'
+      ? mods.widespreadWords[widespread]
+      : defaultWidespread;
+  };
+  const noneWord = fetchWidespread('noneWord', 'None');
+
+  const settingsModalInputRegExpTooltip = fetchTooltip(
+    'settingsModalInputRegExpTooltip',
+    'Regular expression pattern that this must satisfy',
+  );
+  const settingsModalInputColumnSizeTooltip = fetchTooltip(
+    'settingsModalInputColumnSizeTooltip',
+    'Set the column size of the input',
+  );
+  const settingsModalInputFormatTooltip = fetchTooltip(
+    'settingsModalInputFormatTooltip',
+    'Require string input to match a certain common format',
+  );
+  const settingsModalInputAutoCompleteTooltip = fetchTooltip(
+    'settingsModalInputAutoCompleteTooltip',
+    "Suggest entries based on the user's browser history",
+  );
+  const settingsModalInputMinLengthLabel = fetchLabel(
+    'settingsModalInputMinLengthLabel',
+    'Minimum Length',
+  );
+  const settingsModalInputMinLengthPlaceholder = fetchLabel(
+    'settingsModalInputMinLengthPlaceholder',
+    'Minimum Length',
+  );
+  const settingsModalInputMaxLengthLabel = fetchLabel(
+    'settingsModalInputMaxLengthLabel',
+    'Maximum Length',
+  );
+  const settingsModalInputMaxLengthPlaceholder = fetchLabel(
+    'settingsModalInputMaxLengthPlaceholder',
+    'Maximum Length',
+  );
+  const settingsModalInputRegExpLabel = fetchLabel(
+    'settingsModalInputRegExpLabel',
+    'Regular Expression Pattern',
+  );
+  const settingsModalInputRegExpPlaceholder = fetchLabel(
+    'settingsModalInputRegExpPlaceholder',
+    'Regular Expression Pattern',
+  );
+  const settingsModalInputColumnSizeLabel = fetchLabel(
+    'settingsModalInputColumnSizeLabel',
+    'Column Size',
+  );
+  const settingsModalInputColumnSizePlaceholder = fetchLabel(
+    'settingsModalInputColumnSizePlaceholder',
+    'Column Size',
+  );
+  const settingsModalInputFormatLabel = fetchLabel(
+    'settingsModalInputFormatLabel',
+    'Format',
+  );
+  const settingsModalInputFormatPlaceholder = fetchLabel(
+    'settingsModalInputFormatPlaceholder',
+    'Format',
+  );
+  const settingsModalInputAutoCompleteLabel = fetchLabel(
+    'settingsModalInputAutoCompleteLabel',
+    'Auto Complete Category',
+  );
+  const settingsModalInputAutoCompletePlaceholder = fetchLabel(
+    'settingsModalInputAutoCompletePlaceholder',
+    'Auto Complete',
+  );
+  const settingsModalInputAutoFocusLabel = fetchLabel(
+    'settingsModalInputAutoFocusLabel',
+    'Auto focus',
+  );
+  const settingsModalInputFormatItemEmail = fetchLabel(
+    'settingsModalInputFormatItemEmail',
+    'Email',
+  );
+  const settingsModalInputFormatItemHostname = fetchLabel(
+    'settingsModalInputFormatItemHostname',
+    'Hostname',
+  );
+  const settingsModalInputFormatItemURI = fetchLabel(
+    'settingsModalInputFormatItemURI',
+    'URI',
+  );
+  const settingsModalInputFormatItemRegEx = fetchLabel(
+    'settingsModalInputFormatItemRegEx',
+    'Regular Expression',
+  );
+  const settingsModalInputAutoCompleteUserName = fetchLabel(
+    'settingsModalInputAutoCompleteUserName',
+    'User Name',
+  );
+  const settingsModalInputAutoCompleteItemPassword = fetchLabel(
+    'settingsModalInputAutoCompleteItemPassword',
+    'Password',
+  );
+  const settingsModalInputAutoCompleteItemAddress = fetchLabel(
+    'settingsModalInputAutoCompleteItemAddress',
+    'Street Address',
+  );
+  const settingsModalInputAutoCompleteItemCountry = fetchLabel(
+    'settingsModalInputAutoCompleteItemCountry',
+    'Country',
+  );
+
+  const formatDictionary = {
+    '': noneWord,
+    email: settingsModalInputFormatItemEmail,
+    hostname: settingsModalInputFormatItemHostname,
+    uri: settingsModalInputFormatItemURI,
+    regex: settingsModalInputFormatItemRegEx,
+  };
+  const autoDictionary = {
+    '': noneWord,
+    email: settingsModalInputFormatItemEmail,
+    username: settingsModalInputAutoCompleteUserName,
+    password: settingsModalInputAutoCompleteItemPassword,
+    'street-address': settingsModalInputAutoCompleteItemAddress,
+    country: settingsModalInputAutoCompleteItemCountry,
+  };
   return (
     <div>
-      <h4>Minimum Length</h4>
+      <h4>{settingsModalInputMinLengthLabel}</h4>
       <Input
         value={parameters.minLength ? parameters.minLength : ''}
-        placeholder='Minimum Length'
+        placeholder={settingsModalInputMinLengthPlaceholder}
         key='minLength'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -56,10 +180,10 @@ function CardShortAnswerParameterInputs({
         }}
         className='card-modal-number'
       />
-      <h4>Maximum Length</h4>
+      <h4>{settingsModalInputMaxLengthLabel}</h4>
       <Input
         value={parameters.maxLength ? parameters.maxLength : ''}
-        placeholder='Maximum Length'
+        placeholder={settingsModalInputMaxLengthPlaceholder}
         key='maxLength'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -71,7 +195,7 @@ function CardShortAnswerParameterInputs({
         className='card-modal-number'
       />
       <h4>
-        Regular Expression Pattern{' '}
+        {settingsModalInputRegExpLabel}
         <a
           href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'
           target='_blank'
@@ -80,13 +204,13 @@ function CardShortAnswerParameterInputs({
           <Tooltip
             id={`${elementId}_regex`}
             type='help'
-            text='Regular expression pattern that this must satisfy'
+            text={settingsModalInputRegExpTooltip}
           />
         </a>
       </h4>
       <Input
         value={parameters.pattern ? parameters.pattern : ''}
-        placeholder='Regular Expression Pattern'
+        placeholder={settingsModalInputRegExpPlaceholder}
         key='pattern'
         type='text'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -98,11 +222,11 @@ function CardShortAnswerParameterInputs({
         className='card-modal-text'
       />
       <h4>
-        Format{' '}
+        {settingsModalInputFormatLabel}
         <Tooltip
           id={`${elementId}_format`}
           type='help'
-          text='Require string input to match a certain common format'
+          text={settingsModalInputFormatTooltip}
         />
       </h4>
       <Select
@@ -116,9 +240,9 @@ function CardShortAnswerParameterInputs({
             ? formatDictionary[
                 typeof parameters.format === 'string' ? parameters.format : ''
               ]
-            : 'None',
+            : noneWord,
         }}
-        placeholder='Format'
+        placeholder={settingsModalInputFormatPlaceholder}
         key='format'
         options={Object.keys(formatDictionary).map((key) => ({
           value: key,
@@ -133,7 +257,7 @@ function CardShortAnswerParameterInputs({
         className='card-modal-select'
       />
       <h5>
-        Auto Complete Category{' '}
+        {settingsModalInputAutoCompleteLabel}
         <a
           href='https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete'
           target='_blank'
@@ -142,7 +266,7 @@ function CardShortAnswerParameterInputs({
           <Tooltip
             id={`${elementId}_autocomplete`}
             type='help'
-            text="Suggest entries based on the user's browser history"
+            text={settingsModalInputAutoCompleteTooltip}
           />
         </a>
       </h5>
@@ -161,9 +285,9 @@ function CardShortAnswerParameterInputs({
                   ? parameters['ui:autocomplete']
                   : ''
               ]
-            : 'None',
+            : noneWord,
         }}
-        placeholder='Auto Complete'
+        placeholder={settingsModalInputAutoCompletePlaceholder}
         key='ui:autocomplete'
         options={Object.keys(autoDictionary).map((key) => ({
           value: key,
@@ -177,9 +301,13 @@ function CardShortAnswerParameterInputs({
         }}
         className='card-modal-select'
       />
-      <PlaceholderInput parameters={parameters} onChange={onChange} />
+      <PlaceholderInput
+        parameters={parameters}
+        onChange={onChange}
+        mods={mods}
+      />
       <h4>
-        Column Size{' '}
+        {settingsModalInputColumnSizeLabel}
         <a
           href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
           target='_blank'
@@ -188,13 +316,13 @@ function CardShortAnswerParameterInputs({
           <Tooltip
             id={`${elementId}_column_size`}
             type='help'
-            text='Set the column size of the input'
+            text={settingsModalInputColumnSizeTooltip}
           />
         </a>
       </h4>
       <Input
         value={parameters['ui:column'] ? parameters['ui:column'] : ''}
-        placeholder='Column size'
+        placeholder={settingsModalInputColumnSizePlaceholder}
         key='ui:column'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -220,7 +348,7 @@ function CardShortAnswerParameterInputs({
               ? parameters['ui:autofocus'] === true
               : false
           }
-          label='Auto Focus'
+          label={settingsModalInputAutoFocusLabel}
         />
       </div>
     </div>
@@ -249,6 +377,11 @@ function ShortAnswerField({
     'inputDefaultValuePlaceholder',
     'Default',
   );
+
+  const formatTypeDictionary = {
+    email: 'email',
+    url: 'uri',
+  };
   return (
     <React.Fragment>
       <h5>{inputDefaultValueLabel}</h5>

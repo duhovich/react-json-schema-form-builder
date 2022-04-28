@@ -10,19 +10,70 @@ import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
 // specify the inputs required for a string type object
 function CardLongAnswerParameterInputs({
+  mods,
   parameters,
   onChange,
 }: {
+  mods: Mods,
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
   const [elementId] = useState(getRandomId());
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+  const settingsModalInputRegExpTooltip = fetchTooltip(
+    'settingsModalInputRegExpTooltip',
+    'Regular expression pattern that this must satisfy',
+  );
+  const settingsModalInputMinLengthLabel = fetchLabel(
+    'settingsModalInputMinLengthLabel',
+    'Minimum Length',
+  );
+  const settingsModalInputMinLengthPlaceholder = fetchLabel(
+    'settingsModalInputMinLengthPlaceholder',
+    'Minimum Length',
+  );
+  const settingsModalInputMaxLengthLabel = fetchLabel(
+    'settingsModalInputMaxLengthLabel',
+    'Maximum Length',
+  );
+  const settingsModalInputMaxLengthPlaceholder = fetchLabel(
+    'settingsModalInputMaxLengthPlaceholder',
+    'Maximum Length',
+  );
+  const settingsModalInputRegExpLabel = fetchLabel(
+    'settingsModalInputRegExpLabel',
+    'Regular Expression Pattern',
+  );
+  const settingsModalInputRegExpPlaceholder = fetchLabel(
+    'settingsModalInputRegExpPlaceholder',
+    'Regular Expression Pattern',
+  );
+  const settingsModalInputAutoFocusLabel = fetchLabel(
+    'settingsModalInputAutoFocusLabel',
+    'Auto focus',
+  );
+
   return (
     <div>
-      <h4>Minimum Length</h4>
+      <h4>{settingsModalInputMinLengthLabel}</h4>
       <Input
         value={parameters.minLength ? parameters.minLength : ''}
-        placeholder='Minimum Length'
+        placeholder={settingsModalInputMinLengthPlaceholder}
         key='minLength'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -33,10 +84,10 @@ function CardLongAnswerParameterInputs({
         }}
         className='card-modal-number'
       />
-      <h4>Maximum Length</h4>
+      <h4>{settingsModalInputMaxLengthLabel}</h4>
       <Input
         value={parameters.maxLength ? parameters.maxLength : ''}
-        placeholder='Maximum Length'
+        placeholder={settingsModalInputMaxLengthPlaceholder}
         key='maxLength'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -48,18 +99,18 @@ function CardLongAnswerParameterInputs({
         className='card-modal-number'
       />
       <h4>
-        Regular Expression Pattern{' '}
+        {settingsModalInputRegExpLabel}
         <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'>
           <Tooltip
             id={`${elementId}_regex`}
             type='help'
-            text='Regular expression pattern that this must satisfy'
+            text={settingsModalInputRegExpTooltip}
           />
         </a>
       </h4>
       <Input
         value={parameters.pattern ? parameters.pattern : ''}
-        placeholder='Regular Expression Pattern'
+        placeholder={settingsModalInputRegExpPlaceholder}
         key='pattern'
         type='text'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -70,7 +121,11 @@ function CardLongAnswerParameterInputs({
         }}
         className='card-modal-text'
       />
-      <PlaceholderInput parameters={parameters} onChange={onChange} />
+      <PlaceholderInput
+        parameters={parameters}
+        onChange={onChange}
+        mods={mods}
+      />
       <div className='card-modal-boolean'>
         <FBCheckbox
           onChangeValue={() => {
@@ -86,7 +141,7 @@ function CardLongAnswerParameterInputs({
               ? parameters['ui:autofocus'] === true
               : false
           }
-          label='Auto Focus'
+          label={settingsModalInputAutoFocusLabel}
         />
       </div>
     </div>
