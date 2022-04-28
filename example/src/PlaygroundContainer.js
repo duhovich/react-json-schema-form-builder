@@ -69,8 +69,8 @@ labels: {
   dropdownForceNumberDescriptionLabel:"test string",
   dropdownInputPlaceholder:"test string",
   dropdownInputEnumPlaceholder:"test string",
-  newElementDefaultSectionLable:"test SECTION",
-  newElementDefaultInputLable:"test INPUT"
+  newElementDefaultSectionLabel:"test SECTION",
+  newElementDefaultInputLabel:"test INPUT"
 }
 };
 

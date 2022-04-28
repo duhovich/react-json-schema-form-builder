@@ -1010,8 +1010,8 @@ export function addSectionObj(parameters: {
       ? mods.labels[labelName]
       : defaultLabel;
   };
-  const newElementDefaultSectionLable = fetchLabel(
-    'newElementDefaultSectionLable',
+  const newElementDefaultSectionLabel = fetchLabel(
+    'newElementDefaultSectionLabel',
     `New Input ${i}`,
   );
 
@@ -1019,13 +1019,13 @@ export function addSectionObj(parameters: {
     name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
-      title: `${newElementDefaultSectionLable} ${i}`,
+      title: `${newElementDefaultSectionLabel} ${i}`,
       type: 'object',
       default: '',
     },
     uiOptions: {},
     propType: 'section',
-    schema: { title: `${newElementDefaultSectionLable} ${i}`, type: 'object' },
+    schema: { title: `${newElementDefaultSectionLabel} ${i}`, type: 'object' },
     uischema: {},
     neighborNames: [],
   }: ElementProps);
@@ -1683,8 +1683,8 @@ export function getNewElementDefaultDataOptions(
       ? mods.labels[labelName]
       : defaultLabel;
   };
-  const newElementDefaultInputLable = fetchLabel(
-    'newElementDefaultInputLable',
+  const newElementDefaultInputLabel = fetchLabel(
+    'newElementDefaultInputLabel',
     `New Input ${i}`,
   );
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
@@ -1692,7 +1692,7 @@ export function getNewElementDefaultDataOptions(
     return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
   } else {
     return {
-      title: `${newElementDefaultInputLable} ${i}`,
+      title: `${newElementDefaultInputLabel} ${i}`,
       type: 'string',
       default: '',
     };
