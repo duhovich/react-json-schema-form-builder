@@ -11,6 +11,7 @@ import DependencyPossibility from './DependencyPossibility';
 import FontAwesomeIcon from '../FontAwesomeIcon';
 import { getRandomId } from '../utils';
 import type { Node } from 'react';
+import { Mods } from '../types';
 
 const useStyles = createUseStyles({
   dependencyField: {
@@ -71,23 +72,65 @@ type DependencyParams = {
 };
 
 export default function DependencyField({
+  mods,
   parameters,
   onChange,
 }: {
+  mods: Mods,
   parameters: DependencyParams,
   onChange: (newParams: DependencyParams) => void,
 }): Node {
   const [elementId] = useState(getRandomId());
   const classes = useStyles();
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+  const settingsModalDependenciesTooltip = fetchTooltip(
+    'settingsModalDependenciesTooltip',
+    'Control whether other form elements show based on this one',
+  );
+  const settingsModalDependenciesAddTooltip = fetchTooltip(
+    'settingsModalDependenciesAddTooltip',
+    'Add another dependency relation linking this element and other form elements',
+  );
+  const settingsModalDependenciesSpecificTooltip = fetchTooltip(
+    'settingsModalDependenciesSpecificTooltip',
+    "Specify whether these elements should show based on this element's value",
+  );
+  const settingsModalDependenciesLabel = fetchLabel(
+    'settingsModalDependenciesLabel',
+    'Dependencies',
+  );
+  const settingsModalDependenciesAnyLabel = fetchLabel(
+    'settingsModalDependenciesAnyLabel',
+    'Any value dependency',
+  );
+  const settingsModalDependenciesSpecificLabel = fetchLabel(
+    'settingsModalDependenciesSpecificLabel',
+    'Specific value dependency',
+  );
   return (
     <div className={`form-dependency ${classes.dependencyField}`}>
       <h4>
-        Dependencies{' '}
+        {settingsModalDependenciesLabel}
         <Tooltip
           id={`${elementId}_dependent`}
           type='help'
-          text='Control whether other form elements show based on this one'
+          text={settingsModalDependenciesTooltip}
         />
       </h4>
       {!!parameters.dependents && parameters.dependents.length > 0 && (
@@ -98,17 +141,17 @@ export default function DependencyField({
             options={[
               {
                 value: 'definition',
-                label: 'Any value dependency',
+                label: settingsModalDependenciesAnyLabel,
               },
               {
                 value: 'value',
                 label: (
                   <React.Fragment>
-                    Specific value dependency{' '}
+                    {settingsModalDependenciesSpecificLabel}
                     <Tooltip
                       id={`${elementId}_valuebased`}
                       type='help'
-                      text="Specify whether these elements should show based on this element's value"
+                      text={settingsModalDependenciesSpecificTooltip}
                     />
                   </React.Fragment>
                 ),
@@ -146,6 +189,7 @@ export default function DependencyField({
         {parameters.dependents
           ? parameters.dependents.map((possibility, index) => (
               <DependencyPossibility
+                mods={mods}
                 possibility={possibility}
                 neighborNames={parameters.neighborNames || []}
                 parentEnums={parameters.enum}
@@ -205,8 +249,7 @@ export default function DependencyField({
           placement='top'
           target={`${elementId}_adddependency`}
         >
-          Add another dependency relation linking this element and other form
-          elements
+          {settingsModalDependenciesAddTooltip}
         </UncontrolledTooltip>
       </div>
     </div>

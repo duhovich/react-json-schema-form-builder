@@ -553,6 +553,7 @@ export default function Section({
           </div>
         </div>
         <CardModal
+          mods={mods}
           componentProps={{
             dependents,
             neighborNames,

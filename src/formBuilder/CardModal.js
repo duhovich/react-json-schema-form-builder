@@ -12,7 +12,7 @@ import {
 import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
 import type { Node } from 'react';
-import type { Parameters } from './types';
+import type { Parameters, Mods } from './types';
 import Tooltip from './Tooltip';
 
 const useStyles = createUseStyles({
@@ -79,10 +79,17 @@ export default function CardModal({
       ? mods.tooltipDescriptions[tooltipName]
       : defaultTooltip;
   };
-
+  const settingsModalColumnSizeTooltip = fetchTooltip(
+    'settingsModalColumnSizeTooltip',
+    'Set the column size of the input',
+  );
   const settingsModalHeaderLabel = fetchLabel(
     'settingsModalHeaderLabel',
-    'Additional Settings1',
+    'Additional Settings',
+  );
+  const settingsModalColumnSizeLabel = fetchLabel(
+    'settingsModalColumnSizeLabel',
+    'Column Size',
   );
 
   React.useEffect(() => {
@@ -107,7 +114,7 @@ export default function CardModal({
         />
         <div>
           <h4>
-            Column Size{' '}
+            {settingsModalColumnSizeLabel}
             <a
               href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
               target='_blank'
@@ -116,7 +123,7 @@ export default function CardModal({
               <Tooltip
                 id='column_size_tooltip'
                 type='help'
-                text='Set the column size of the input'
+                text={settingsModalColumnSizeTooltip}
               />
             </a>
           </h4>
@@ -126,7 +133,7 @@ export default function CardModal({
                 ? componentPropsState['ui:column']
                 : ''
             }
-            placeholder='Column size'
+            placeholder={settingsModalColumnSizeLabel}
             key='ui:column'
             type='number'
             min={0}
@@ -140,6 +147,7 @@ export default function CardModal({
           />
         </div>
         <DependencyField
+          mods={mods}
           parameters={(componentPropsState: { [string]: any })}
           onChange={(newState: any) => {
             setComponentProps({

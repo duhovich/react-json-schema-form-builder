@@ -34,6 +34,11 @@ const mods = {tooltipDescriptions: {
   cardSectionObjectName: "test string",
   cardSectionDisplayName: "test string",
   cardSectionDescription: "test string",
+  settingsModalColumnSizeTooltip: "test string",
+  settingsModalDependenciesTooltip: "test string",
+  settingsModalDependenciesAddTooltip: "test string",
+  settingsModalDependenciesSpecificTooltip: "test string",
+  settingsModalDependenciesDisplayFollowingTooltip: "test string",
 },
 labels: {
   formNameLabel: "test string",
@@ -48,7 +53,13 @@ labels: {
   cgpiKeyPlaceholder: "test string",
   cgpiTitlePlaceholder: "test string",
   cgpiDescPlaceholder: "test string",
-  settingsModalHeaderLabel: "test string",
+  settingsModalHeaderLabel: "test string head",
+  settingsModalColumnSizeLabel: "test string",
+  settingsModalDependenciesLabel: "test string",
+  settingsModalDependenciesAnyLabel: "test string",
+  settingsModalDependenciesSpecificLabel: "test string",
+  settingsModalDependenciesDisplayFollowingLabel: "test string deps",
+  settingsModalDependenciesDisplayFollowingPlaceholder: "test string",
   requiredChkbxLabel: "test string",
   objectNameLabel: "test string",
   displayNameLabel: "test string",
@@ -71,7 +82,13 @@ labels: {
   dropdownInputEnumPlaceholder:"test string",
   newElementDefaultSectionLabel:"test SECTION",
   newElementDefaultInputLabel:"test INPUT"
-}
+},
+widespreadWords: {
+  ifWord: 'Якщо',
+  hasWord: 'має ',
+  theValueWord: 'значення',
+  aValueWord: 'значення',
+},
 };
 
 export default function PlaygroundContainer({ title }: { title: string }) {
