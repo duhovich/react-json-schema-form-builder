@@ -1683,8 +1683,8 @@ export function getNewElementDefaultDataOptions(
       ? mods.labels[labelName]
       : defaultLabel;
   };
-  const newElementDefaultInputLabel = fetchLabel(
-    'newElementDefaultInputLabel',
+  const newElementDefaultInputLable = fetchLabel(
+    'newElementDefaultInputLable',
     `New Input ${i}`,
   );
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
@@ -1692,7 +1692,7 @@ export function getNewElementDefaultDataOptions(
     return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
   } else {
     return {
-      title: `${newElementDefaultInputLabel} ${i}`,
+      title: `${newElementDefaultInputLable} ${i}`,
       type: 'string',
       default: '',
     };

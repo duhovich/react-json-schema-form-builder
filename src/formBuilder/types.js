@@ -174,7 +174,7 @@ export type Mods = {|
     dropdownInputPlaceholder?: string,
     dropdownInputEnumPlaceholder?: string,
     newElementDefaultSectionLable?: string,
-    newElementDefaultInputLabel?: string,
+    newElementDefaultInputLable?: string,
   |},
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,

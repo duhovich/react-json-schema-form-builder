@@ -70,7 +70,7 @@ labels: {
   dropdownInputPlaceholder:"test string",
   dropdownInputEnumPlaceholder:"test string",
   newElementDefaultSectionLable:"test SECTION",
-  newElementDefaultInputLabel:"test INPUT"
+  newElementDefaultInputLable:"test INPUT"
 }
 };
 
