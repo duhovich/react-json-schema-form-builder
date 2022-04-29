@@ -14,6 +14,7 @@ import {
   generateElementComponentsFromSchemas,
   addCardObj,
   addSectionObj,
+  addFullNameObj,
   onDragEnd,
   countElementsFromSchema,
   generateCategoryHash,
@@ -196,6 +197,8 @@ export default function FormBuilder({
   mods?: Mods,
   className?: string,
 }): Node {
+  console.log(schema);
+  console.log(uischema);
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   schemaData.type = 'object';
@@ -221,7 +224,6 @@ export default function FormBuilder({
     defaultCollapseStates,
   );
   const categoryHash = generateCategoryHash(allFormInputs);
-
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
       <Alert
@@ -374,6 +376,17 @@ export default function FormBuilder({
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods: mods,
+                schema: schemaData,
+                uischema: uiSchemaData,
+                onChange: (newSchema, newUiSchema) =>
+                  onChange(stringify(newSchema), stringify(newUiSchema)),
+                definitionData: schemaData.definitions,
+                definitionUi: uiSchemaData.definitions,
+                categoryHash,
+              });
+            } else if (choice === 'fullName') {
+              addFullNameObj({
                 mods: mods,
                 schema: schemaData,
                 uischema: uiSchemaData,

@@ -1043,6 +1043,73 @@ export function addSectionObj(parameters: {
     onChange,
   });
 }
+export function addFullNameObj(parameters: {
+  mods: Mods,
+  schema: { [string]: any },
+  uischema: { [string]: any },
+  onChange: ({ [string]: any }, { [string]: any }) => any,
+  definitionData: { [string]: any },
+  definitionUi: { [string]: any },
+  index?: number,
+  categoryHash: { [string]: string },
+}) {
+  const {
+    mods,
+    schema,
+    uischema,
+    onChange,
+    definitionData,
+    definitionUi,
+    index,
+    categoryHash,
+  } = parameters;
+  const newElementObjArr = generateElementPropsFromSchemas({
+    schema,
+    uischema,
+    definitionData,
+    definitionUi,
+    categoryHash,
+  });
+
+  const i = getIdFromElementsBlock(newElementObjArr);
+
+  const newElement = ({
+    name: `fullName`,
+    required: true,
+    dataOptions: {
+      title: `ПІБ`,
+      type: 'object',
+      default: '',
+    },
+    uiOptions: {},
+    propType: 'section',
+    schema: {
+      title: `ПІБ`,
+      type: 'object',
+      properties: {
+        secondName: { title: 'Прізвище', type: 'string' },
+        name: { title: "Ім'я", type: 'string' },
+        middleName: { title: 'По батькові', type: 'string' },
+      },
+      required: ['secondName', 'name', 'middleName'],
+    },
+    uischema: {},
+    neighborNames: [],
+  }: ElementProps);
+
+  if (index !== undefined && index !== null) {
+    newElementObjArr.splice(index + 1, 0, newElement);
+  } else {
+    newElementObjArr.push(newElement);
+  }
+  updateSchemas(newElementObjArr, {
+    schema,
+    uischema,
+    definitionData,
+    definitionUi,
+    onChange,
+  });
+}
 
 // generate an array of Card and Section components from a schema
 export function generateElementComponentsFromSchemas(parameters: {
@@ -1077,7 +1144,7 @@ export function generateElementComponentsFromSchemas(parameters: {
     Card,
     Section,
   } = parameters;
-
+  console.log('TEST', schemaData);
   const schema = parse(stringify(schemaData));
   const uischema = parse(stringify(uiSchemaData));
 
@@ -1258,6 +1325,17 @@ export function generateElementComponentsFromSchemas(parameters: {
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods,
+                schema,
+                uischema,
+                onChange,
+                definitionData: definitionData || {},
+                definitionUi: definitionUi || {},
+                index,
+                categoryHash,
+              });
+            } else if (choice === 'fullName') {
+              addFullNameObj({
                 mods,
                 schema,
                 uischema,
@@ -1485,6 +1563,17 @@ export function generateElementComponentsFromSchemas(parameters: {
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods,
+                schema,
+                uischema,
+                onChange,
+                definitionData: definitionData || {},
+                definitionUi: definitionUi || {},
+                index,
+                categoryHash,
+              });
+            } else if (choice === 'fullName') {
+              addFullNameObj({
                 mods,
                 schema,
                 uischema,

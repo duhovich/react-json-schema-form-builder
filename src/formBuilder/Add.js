@@ -71,6 +71,10 @@ export default function Add({
     'addPopoverHeaderLabel',
     'Create New',
   );
+  const addPopoverFormFullNameLabel = fetchLabel(
+    'addPopoverFormFullNameLabel',
+    'Full name',
+  );
   const addPopoverFormElementLabel = fetchLabel(
     'addPopoverFormElementLabel',
     'Form element',
@@ -121,6 +125,10 @@ export default function Add({
               {
                 value: 'section',
                 label: addPopoverFormSectionLabel,
+              },
+              {
+                value: 'fullName',
+                label: addPopoverFormFullNameLabel,
               },
             ]}
             onChange={(selection) => {

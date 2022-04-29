@@ -21,6 +21,9 @@ const useStyles = createUseStyles({
 // Can be used to set initial schemas and mods (useful for development)
 const initialJsonSchema = {};
 const initialUiSchema = {};
+const customJsonSchema = {}
+const customUiSchema = {}
+
 const mods = {tooltipDescriptions: {
   add: "test string",
   moveElementUpButtonTooltip: "test string",
@@ -44,6 +47,7 @@ const mods = {tooltipDescriptions: {
   settingsModalInputColumnSizeTooltip:'Column size tooltip',
   settingsModalInputFormatTooltip:'Format test',
   settingsModalInputAutoCompleteTooltip:'Auto complete test',
+  settingsModalInputNumberMultOfTooltip:'Multiple of test',
 },
 labels: {
   formNameLabel: "test string",
@@ -51,6 +55,7 @@ labels: {
   formNamePlaceholder: "test string",
   formDescriptionPlaceholder: "test string",
   addPopoverHeaderLabel: "test string",
+  addPopoverFormFullNameLabel: "ПІБ",
   addPopoverFormElementLabel: "test string",
   addPopoverFormSectionLabel: "test string",
   addPopoverCancelButtonLabel: "test string",
@@ -96,15 +101,28 @@ labels: {
   settingsModalInputFormatLabel: "format test",
   settingsModalInputFormatPlaceholder: 'autocompl',
   settingsModalInputFormatItemEmail: 'Пошта',
-    settingsModalInputFormatItemHostname: 'Ім\'я хоста',
-    settingsModalInputFormatItemURI: 'Посилання',
-    settingsModalInputFormatItemRegEx: 'Регулярний вираз',
-    settingsModalInputAutoCompleteUserName: 'Ім\'я користувача',
-    settingsModalInputAutoCompleteItemPassword: 'Пароль',
-    settingsModalInputAutoCompleteItemAddress: 'Адреса',
-    settingsModalInputAutoCompleteItemCountry: 'Країна',
+  settingsModalInputFormatItemHostname: 'Ім\'я хоста',
+  settingsModalInputFormatItemURI: 'Посилання',
+  settingsModalInputFormatItemRegEx: 'Регулярний вираз',
+  settingsModalInputAutoCompleteUserName: 'Ім\'я користувача',
+  settingsModalInputAutoCompleteItemPassword: 'Пароль',
+  settingsModalInputAutoCompleteItemAddress: 'Адреса',
+  settingsModalInputAutoCompleteItemCountry: 'Країна',
   settingsModalInputAutoCompleteLabel: "autocompl",
   settingsModalInputAutoCompletePlaceholder: 'format test',
+  settingsModalInputArrayMinItemsLabel: 'min items test',
+  settingsModalInputArrayMinItemsPlaceholder: 'string',
+  settingsModalInputArrayMaxItemsLabel: 'max items test',
+  settingsModalInputArrayMaxItemsPlaceholder: 'string',
+  settingsModalInputArraySectionCheckboxLabel: 'Section test',
+  settingsModalInputNumberMultOfLabel: 'Mult of',
+  settingsModalInputNumberMultOfPlaceholder: 'string',
+  settingsModalInputNumberMinLabel: 'Minimum string',
+  settingsModalInputNumberMinPlaceholder: 'string',
+  settingsModalInputNumberCheckBoxExMinLabel: 'ExMin',
+  settingsModalInputNumberMaxLabel: 'Maximum string',
+  settingsModalInputNumberMaxPlaceholder: 'string',
+  settingsModalInputNumberCheckBoxExMaxLabel: 'ExMax',
   dropdownPossibleValuesLabel:"test string",
   dropdownPossibleValuesDescriptionLabel:"test string",
   dropdownForceNumberDescriptionLabel:"test string",
