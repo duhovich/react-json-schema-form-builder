@@ -14,7 +14,7 @@ import {
   generateElementComponentsFromSchemas,
   addCardObj,
   addSectionObj,
-  addFullNameObj,
+  addCustomField,
   onDragEnd,
   countElementsFromSchema,
   generateCategoryHash,
@@ -190,15 +190,17 @@ export default function FormBuilder({
   onChange,
   mods,
   className,
+  customFields,
+  customItems,
 }: {
+  customFields: Array,
+  customItems?: Array,
   schema: string,
   uischema: string,
   onChange: (string, string) => any,
   mods?: Mods,
   className?: string,
 }): Node {
-  console.log(schema);
-  console.log(uischema);
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   schemaData.type = 'object';
@@ -217,7 +219,6 @@ export default function FormBuilder({
     uiSchemaData,
     allFormInputs,
   );
-
   const elementNum = countElementsFromSchema(schemaData);
   const defaultCollapseStates = [...Array(elementNum)].map(() => false);
   const [cardOpenArray, setCardOpenArray] = React.useState(
@@ -323,6 +324,8 @@ export default function FormBuilder({
                 {...providedDroppable.droppableProps}
               >
                 {generateElementComponentsFromSchemas({
+                  customItems,
+                  customFields,
                   schemaData,
                   uiSchemaData,
                   onChange: (newSchema, newUiSchema) =>
@@ -339,6 +342,7 @@ export default function FormBuilder({
                   Section,
                 }).map((element: any, index) => (
                   <Draggable
+                    customItems={customItems}
                     key={element.key}
                     draggableId={element.key}
                     index={index}
@@ -385,8 +389,10 @@ export default function FormBuilder({
                 definitionUi: uiSchemaData.definitions,
                 categoryHash,
               });
-            } else if (choice === 'fullName') {
-              addFullNameObj({
+            } else if (choice !== 'card' && choice !== 'section') {
+              addCustomField({
+                choice: choice,
+                customFields: customFields,
                 mods: mods,
                 schema: schemaData,
                 uischema: uiSchemaData,
@@ -403,6 +409,8 @@ export default function FormBuilder({
             Object.keys(schemaData.properties).length !== 0
           }
           mods={mods}
+          customItems={customItems}
+          customFields={customFields}
         />
       </div>
     </div>

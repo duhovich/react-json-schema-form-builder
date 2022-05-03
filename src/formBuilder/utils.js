@@ -946,7 +946,6 @@ export function addCardObj(parameters: {
     definitionUi,
     categoryHash,
   });
-
   const i = getIdFromElementsBlock(newElementObjArr);
   const dataOptions = getNewElementDefaultDataOptions(i, mods);
 
@@ -1043,7 +1042,9 @@ export function addSectionObj(parameters: {
     onChange,
   });
 }
-export function addFullNameObj(parameters: {
+export function addCustomField(parameters: {
+  choice: string,
+  customFields: Array,
   mods: Mods,
   schema: { [string]: any },
   uischema: { [string]: any },
@@ -1054,6 +1055,8 @@ export function addFullNameObj(parameters: {
   categoryHash: { [string]: string },
 }) {
   const {
+    choice,
+    customFields,
     mods,
     schema,
     uischema,
@@ -1070,38 +1073,18 @@ export function addFullNameObj(parameters: {
     definitionUi,
     categoryHash,
   });
-
   const i = getIdFromElementsBlock(newElementObjArr);
 
-  const newElement = ({
-    name: `fullName`,
-    required: true,
-    dataOptions: {
-      title: `ПІБ`,
-      type: 'object',
-      default: '',
-    },
-    uiOptions: {},
-    propType: 'section',
-    schema: {
-      title: `ПІБ`,
-      type: 'object',
-      properties: {
-        secondName: { title: 'Прізвище', type: 'string' },
-        name: { title: "Ім'я", type: 'string' },
-        middleName: { title: 'По батькові', type: 'string' },
-      },
-      required: ['secondName', 'name', 'middleName'],
-    },
-    uischema: {},
-    neighborNames: [],
-  }: ElementProps);
+  const newElement = (customFields.find(
+    (obj) => obj.name === choice && obj,
+  ): ElementProps);
 
   if (index !== undefined && index !== null) {
     newElementObjArr.splice(index + 1, 0, newElement);
   } else {
     newElementObjArr.push(newElement);
   }
+
   updateSchemas(newElementObjArr, {
     schema,
     uischema,
@@ -1113,6 +1096,8 @@ export function addFullNameObj(parameters: {
 
 // generate an array of Card and Section components from a schema
 export function generateElementComponentsFromSchemas(parameters: {
+  customFields: Array,
+  customItems: Array,
   schemaData: { [string]: any },
   uiSchemaData: { [string]: any },
   onChange: ({ [string]: any }, { [string]: any }) => any,
@@ -1129,6 +1114,8 @@ export function generateElementComponentsFromSchemas(parameters: {
   Section: React.AbstractComponent<{ [string]: any }>,
 }): Node[] {
   const {
+    customFields,
+    customItems,
     schemaData,
     uiSchemaData,
     onChange,
@@ -1144,7 +1131,6 @@ export function generateElementComponentsFromSchemas(parameters: {
     Card,
     Section,
   } = parameters;
-  console.log('TEST', schemaData);
   const schema = parse(stringify(schemaData));
   const uischema = parse(stringify(uiSchemaData));
 
@@ -1171,6 +1157,8 @@ export function generateElementComponentsFromSchemas(parameters: {
       // add a fully defined card component to the list of components
       return (
         <Card
+          customFields={customFields}
+          customItems={customItems}
           componentProps={Object.assign(
             {
               name: elementPropArr[index].name,
@@ -1334,8 +1322,10 @@ export function generateElementComponentsFromSchemas(parameters: {
                 index,
                 categoryHash,
               });
-            } else if (choice === 'fullName') {
-              addFullNameObj({
+            } else if ((choice !== 'card') & (choice !== 'section')) {
+              addCustomField({
+                choice,
+                customFields,
                 mods,
                 schema,
                 uischema,
@@ -1364,6 +1354,8 @@ export function generateElementComponentsFromSchemas(parameters: {
       // create a section with the appropriate schemas here
       return (
         <Section
+          customFields={customFields}
+          customItems={customItems}
           schema={elementProp.schema}
           uischema={elementProp.uischema}
           onChange={(
@@ -1572,8 +1564,10 @@ export function generateElementComponentsFromSchemas(parameters: {
                 index,
                 categoryHash,
               });
-            } else if (choice === 'fullName') {
-              addFullNameObj({
+            } else if (choice !== 'card' && choice !== 'section') {
+              addCustomField({
+                choice,
+                customFields,
                 mods,
                 schema,
                 uischema,

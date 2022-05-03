@@ -21,8 +21,75 @@ const useStyles = createUseStyles({
 // Can be used to set initial schemas and mods (useful for development)
 const initialJsonSchema = {};
 const initialUiSchema = {};
-const customJsonSchema = {}
-const customUiSchema = {}
+const customFields = [{
+  name: `fullName`,
+  required: true,
+  dataOptions: {
+    title: `ПІБ`,
+    type: 'object',
+    default: '',
+  },
+  uiOptions: {},
+  propType: 'section',
+  schema: {
+    title: `ПІБ`,
+    type: 'object',
+    properties: {
+      secondName: { title: 'Прізвище', type: 'string' },
+      name: { title: "Ім'я", type: 'string' },
+      middleName: { title: 'По батькові', type: 'string' },
+    },
+    required: ['secondName', 'name', 'middleName'],
+  },
+  uischema: {},
+  neighborNames: [],
+},
+{
+  name: `fullNameTEST`,
+  required: true,
+  dataOptions: {
+    title: `ПІБ`,
+    type: 'object',
+    default: '',
+  },
+  uiOptions: {},
+  propType: 'section',
+  schema: {
+    title: `ПІБ`,
+    type: 'object',
+    properties: {
+      secondName: { title: 'Прізвище', type: 'string' },
+      name: { title: "Ім'я", type: 'string' },
+      middleName: { title: 'По батькові', type: 'string' },
+    },
+    required: ['secondName', 'name', 'middleName'],
+  },
+  uischema: {},
+  neighborNames: [],
+},
+{
+  name: `fullNameTEST2`,
+  required: true,
+  dataOptions: {
+    title: `ПІБ2`,
+    type: 'string',
+    default: '',
+  },
+  uiOptions: {},
+  propType: 'card',
+  schema: {
+    title: `ПІБ2`,
+    type: 'string',
+    properties: {
+      secondName: { title: 'Прізвище', type: 'string' },
+      name: { title: "Ім'я", type: 'string' },
+      middleName: { title: 'По батькові', type: 'string' },
+    },
+    required: ['secondName', 'name', 'middleName'],
+  },
+  uischema: {},
+  neighborNames: [],
+}]
 
 const mods = {tooltipDescriptions: {
   add: "test string",
@@ -139,6 +206,18 @@ widespreadWords: {
   noneWord:'Не обрано',
 },
 };
+const customItems =[{
+  value: 'fullName',
+  label: mods.labels.addPopoverFormFullNameLabel,
+},
+{
+  value: 'fullNameTEST',
+  label: 'customItem',
+},
+{
+  value: 'fullNameTEST2',
+  label: 'customItem2',
+}]
 
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
@@ -172,6 +251,8 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         lang={'json'}
         schema={schema}
         uischema={uischema}
+        customFields={customFields}
+        customItems={customItems}
         mods={mods}
         schemaTitle='Data Schema'
         uischemaTitle='UI Schema'
