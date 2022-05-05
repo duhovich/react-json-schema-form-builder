@@ -14,6 +14,7 @@ import {
   generateElementComponentsFromSchemas,
   addCardObj,
   addSectionObj,
+  addCustomField,
   onDragEnd,
   countElementsFromSchema,
   generateCategoryHash,
@@ -189,7 +190,11 @@ export default function FormBuilder({
   onChange,
   mods,
   className,
+  customFields,
+  customItems,
 }: {
+  customFields: Array,
+  customItems?: Array,
   schema: string,
   uischema: string,
   onChange: (string, string) => any,
@@ -214,14 +219,12 @@ export default function FormBuilder({
     uiSchemaData,
     allFormInputs,
   );
-
   const elementNum = countElementsFromSchema(schemaData);
   const defaultCollapseStates = [...Array(elementNum)].map(() => false);
   const [cardOpenArray, setCardOpenArray] = React.useState(
     defaultCollapseStates,
   );
   const categoryHash = generateCategoryHash(allFormInputs);
-
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
       <Alert
@@ -321,6 +324,8 @@ export default function FormBuilder({
                 {...providedDroppable.droppableProps}
               >
                 {generateElementComponentsFromSchemas({
+                  customItems,
+                  customFields,
                   schemaData,
                   uiSchemaData,
                   onChange: (newSchema, newUiSchema) =>
@@ -337,6 +342,7 @@ export default function FormBuilder({
                   Section,
                 }).map((element: any, index) => (
                   <Draggable
+                    customItems={customItems}
                     key={element.key}
                     draggableId={element.key}
                     index={index}
@@ -374,6 +380,20 @@ export default function FormBuilder({
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods: mods,
+                schema: schemaData,
+                uischema: uiSchemaData,
+                onChange: (newSchema, newUiSchema) =>
+                  onChange(stringify(newSchema), stringify(newUiSchema)),
+                definitionData: schemaData.definitions,
+                definitionUi: uiSchemaData.definitions,
+                categoryHash,
+              });
+            } else if (choice !== 'card' && choice !== 'section') {
+              addCustomField({
+                choice: choice,
+                customFields: customFields,
+                mods: mods,
                 schema: schemaData,
                 uischema: uiSchemaData,
                 onChange: (newSchema, newUiSchema) =>
@@ -389,6 +409,8 @@ export default function FormBuilder({
             Object.keys(schemaData.properties).length !== 0
           }
           mods={mods}
+          customItems={customItems}
+          customFields={customFields}
         />
       </div>
     </div>

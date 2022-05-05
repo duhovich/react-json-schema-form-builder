@@ -19,18 +19,41 @@ import type { CardBody, Parameters, Mods, FormInput } from '../types';
 
 // specify the inputs required for a string type object
 function CardArrayParameterInputs({
+  mods,
   parameters,
   onChange,
 }: {
+  mods: Mods,
   parameters: Parameters,
   onChange: ({ [string]: any }) => void,
 }) {
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const settingsModalInputArrayMinItemsLabel = fetchLabel(
+    'settingsModalInputArrayMinItemsLabel',
+    'Minimum Items',
+  );
+  const settingsModalInputArrayMinItemsPlaceholder = fetchLabel(
+    'settingsModalInputArrayMinItemsPlaceholder',
+    'ex: 2',
+  );
+  const settingsModalInputArrayMaxItemsLabel = fetchLabel(
+    'settingsModalInputArrayMaxItemsLabel',
+    'Maximum Items',
+  );
+  const settingsModalInputArrayMaxItemsPlaceholder = fetchLabel(
+    'settingsModalInputArrayMaxItemsPlaceholder',
+    'ex: 2',
+  );
   return (
     <div>
-      <h4>Minimum Items</h4>
+      <h4>{settingsModalInputArrayMinItemsLabel}</h4>
       <Input
         value={parameters.minItems || ''}
-        placeholder='ex: 2'
+        placeholder={settingsModalInputArrayMinItemsPlaceholder}
         key='minimum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -41,10 +64,10 @@ function CardArrayParameterInputs({
         }}
         className='card-modal-number'
       />
-      <h4>Maximum Items</h4>
+      <h4>{settingsModalInputArrayMaxItemsLabel}</h4>
       <Input
         value={parameters.maxItems || ''}
-        placeholder='ex: 2'
+        placeholder={settingsModalInputArrayMaxItemsPlaceholder}
         key='maximum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -104,6 +127,15 @@ function getInnerCardComponent({
     if (parameters.type !== 'array') {
       return <h4>Not an array </h4>;
     }
+    const fetchLabel = (labelName: string, defaultLabel: string): string => {
+      return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+        ? mods.labels[labelName]
+        : defaultLabel;
+    };
+    const settingsModalInputArraySectionCheckboxLabel = fetchLabel(
+      'settingsModalInputArraySectionCheckboxLabel',
+      'Section',
+    );
     return (
       <div className='card-array'>
         <FBCheckbox
@@ -127,7 +159,7 @@ function getInnerCardComponent({
             }
           }}
           isChecked={newDataProps.items.type === 'object'}
-          label='Section'
+          label={settingsModalInputArraySectionCheckboxLabel}
           id={`${elementId}_issection`}
         />
         {generateElementComponentsFromSchemas({

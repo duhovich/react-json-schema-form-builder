@@ -30,6 +30,7 @@ import {
   addCardObj,
   addSectionObj,
   onDragEnd,
+  addCustomField,
 } from './utils';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import { getRandomId } from './utils';
@@ -93,6 +94,8 @@ const useStyles = createUseStyles({
 });
 
 export default function Section({
+  customFields,
+  customItems,
   name,
   required,
   schema,
@@ -120,6 +123,8 @@ export default function Section({
   mods,
   categoryHash,
 }: {
+  customFields: Array,
+  customItems: Array,
   name: string,
   required: boolean,
   schema: { [string]: any },
@@ -451,6 +456,8 @@ export default function Section({
                     {...providedDroppable.droppableProps}
                   >
                     {generateElementComponentsFromSchemas({
+                      customItems,
+                      customFields,
                       schemaData: schema,
                       uiSchemaData: uischema,
                       onChange,
@@ -502,6 +509,19 @@ export default function Section({
                   });
                 } else if (choice === 'section') {
                   addSectionObj({
+                    mods,
+                    schema,
+                    uischema,
+                    onChange,
+                    definitionData,
+                    definitionUi,
+                    categoryHash,
+                  });
+                } else if (choice !== 'card' && choice !== 'section') {
+                  addCustomField({
+                    choice,
+                    customFields,
+                    mods,
                     schema,
                     uischema,
                     onChange,
@@ -516,6 +536,7 @@ export default function Section({
                 Object.keys(schemaData.properties).length !== 0
               }
               mods={mods}
+              customItems={customItems}
             />
           </div>
           <div className='section-interactions'>
@@ -552,6 +573,7 @@ export default function Section({
           </div>
         </div>
         <CardModal
+          mods={mods}
           componentProps={{
             dependents,
             neighborNames,
@@ -573,7 +595,12 @@ export default function Section({
         />
       </Collapse>
       {addElem ? (
-        <Add addElem={(choice: string) => addElem(choice)} mods={mods} />
+        <Add
+          addElem={(choice: string) => addElem(choice)}
+          mods={mods}
+          customItems={customItems}
+          customFields={customFields}
+        />
       ) : (
         ''
       )}

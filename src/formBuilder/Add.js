@@ -36,10 +36,12 @@ const useStyles = createUseStyles({
 });
 
 export default function Add({
+  customItems,
   addElem,
   hidden,
   mods,
 }: {
+  customItems?: [],
   addElem: (choice: string) => void,
   hidden?: boolean,
   mods?: Mods,
@@ -48,7 +50,6 @@ export default function Add({
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState('card');
   const [elementId] = useState(getRandomId());
-
   const fetchLabel = (labelName: string, defaultLabel: string): string => {
     return mods && mods.labels && typeof mods.labels[labelName] === 'string'
       ? mods.labels[labelName]
@@ -71,6 +72,10 @@ export default function Add({
     'addPopoverHeaderLabel',
     'Create New',
   );
+  const addPopoverFormFullNameLabel = fetchLabel(
+    'addPopoverFormFullNameLabel',
+    'Full name',
+  );
   const addPopoverFormElementLabel = fetchLabel(
     'addPopoverFormElementLabel',
     'Form element',
@@ -87,7 +92,6 @@ export default function Add({
     'addPopoverCreateButtonLabel',
     'Create',
   );
-
   return (
     <div style={{ display: hidden ? 'none' : 'initial' }}>
       <span id={`${elementId}_add`}>
@@ -113,16 +117,30 @@ export default function Add({
             className='choose-create'
             defaultValue={createChoice}
             horizontal={false}
-            options={[
-              {
-                value: 'card',
-                label: addPopoverFormElementLabel,
-              },
-              {
-                value: 'section',
-                label: addPopoverFormSectionLabel,
-              },
-            ]}
+            options={
+              customItems
+                ? [
+                    {
+                      value: 'card',
+                      label: addPopoverFormElementLabel,
+                    },
+                    {
+                      value: 'section',
+                      label: addPopoverFormSectionLabel,
+                    },
+                    ...customItems,
+                  ]
+                : [
+                    {
+                      value: 'card',
+                      label: addPopoverFormElementLabel,
+                    },
+                    {
+                      value: 'section',
+                      label: addPopoverFormSectionLabel,
+                    },
+                  ]
+            }
             onChange={(selection) => {
               setCreateChoice(selection);
             }}

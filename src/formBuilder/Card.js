@@ -99,6 +99,8 @@ const useStyles = createUseStyles({
 });
 
 export default function Card({
+  customFields,
+  customItems,
   componentProps,
   onChange,
   onDelete,
@@ -112,6 +114,8 @@ export default function Card({
   mods,
   showObjectNameInput = true,
 }: {
+  customFields: Array,
+  customItems: Array,
   componentProps: {
     [string]: string | number | boolean | Array<string | number>,
     path: string,
@@ -284,7 +288,12 @@ export default function Card({
         />
       </Collapse>
       {addElem ? (
-        <Add addElem={(choice: string) => addElem(choice)} mods={mods} />
+        <Add
+          addElem={(choice: string) => addElem(choice)}
+          mods={mods}
+          customItems={customItems}
+          customFields={customFields}
+        />
       ) : (
         ''
       )}

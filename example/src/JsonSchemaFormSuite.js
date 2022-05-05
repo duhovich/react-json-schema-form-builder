@@ -26,6 +26,8 @@ type Props = {
   lang: string,
   schema: string,
   uischema: string,
+  customFields: Array,
+  customItems: Array,
   onChange?: (schema: string, uischema: string) => void,
   schemaTitle?: string,
   uischemaTitle?: string,
@@ -108,6 +110,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
     }
   }
 
+
   render() {
     const schemaError = checkError(this.props.schema, this.props.lang);
     const schemaUiError = checkError(this.props.uischema, this.props.lang);
@@ -157,7 +160,9 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                 >
                   <ErrorBoundary onErr={() => {}}>
                     <FormBuilder
+                      customItems={this.props.customItems}
                       schema={this.props.schema}
+                      customFields={this.props.customFields}
                       uischema={this.props.uischema}
                       mods={this.props.mods}
                       onChange={(newSchema: string, newUiSchema: string) => {

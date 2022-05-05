@@ -946,7 +946,6 @@ export function addCardObj(parameters: {
     definitionUi,
     categoryHash,
   });
-
   const i = getIdFromElementsBlock(newElementObjArr);
   const dataOptions = getNewElementDefaultDataOptions(i, mods);
 
@@ -977,6 +976,7 @@ export function addCardObj(parameters: {
 
 // given an initial schema, update with a new section appended
 export function addSectionObj(parameters: {
+  mods: Mods,
   schema: { [string]: any },
   uischema: { [string]: any },
   onChange: ({ [string]: any }, { [string]: any }) => any,
@@ -986,6 +986,7 @@ export function addSectionObj(parameters: {
   categoryHash: { [string]: string },
 }) {
   const {
+    mods,
     schema,
     uischema,
     onChange,
@@ -1003,18 +1004,27 @@ export function addSectionObj(parameters: {
   });
 
   const i = getIdFromElementsBlock(newElementObjArr);
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const newElementDefaultSectionLabel = fetchLabel(
+    'newElementDefaultSectionLabel',
+    `New Input ${i}`,
+  );
 
   const newElement = ({
     name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
-      title: `New Input ${i}`,
+      title: `${newElementDefaultSectionLabel} ${i}`,
       type: 'object',
       default: '',
     },
     uiOptions: {},
     propType: 'section',
-    schema: { title: `New Input ${i}`, type: 'object' },
+    schema: { title: `${newElementDefaultSectionLabel} ${i}`, type: 'object' },
     uischema: {},
     neighborNames: [],
   }: ElementProps);
@@ -1032,9 +1042,62 @@ export function addSectionObj(parameters: {
     onChange,
   });
 }
+export function addCustomField(parameters: {
+  choice: string,
+  customFields: Array,
+  mods: Mods,
+  schema: { [string]: any },
+  uischema: { [string]: any },
+  onChange: ({ [string]: any }, { [string]: any }) => any,
+  definitionData: { [string]: any },
+  definitionUi: { [string]: any },
+  index?: number,
+  categoryHash: { [string]: string },
+}) {
+  const {
+    choice,
+    customFields,
+    mods,
+    schema,
+    uischema,
+    onChange,
+    definitionData,
+    definitionUi,
+    index,
+    categoryHash,
+  } = parameters;
+  const newElementObjArr = generateElementPropsFromSchemas({
+    schema,
+    uischema,
+    definitionData,
+    definitionUi,
+    categoryHash,
+  });
+  const i = getIdFromElementsBlock(newElementObjArr);
+
+  const newElement = (customFields.find(
+    (obj) => obj.name === choice && obj,
+  ): ElementProps);
+
+  if (index !== undefined && index !== null) {
+    newElementObjArr.splice(index + 1, 0, newElement);
+  } else {
+    newElementObjArr.push(newElement);
+  }
+
+  updateSchemas(newElementObjArr, {
+    schema,
+    uischema,
+    definitionData,
+    definitionUi,
+    onChange,
+  });
+}
 
 // generate an array of Card and Section components from a schema
 export function generateElementComponentsFromSchemas(parameters: {
+  customFields: Array,
+  customItems: Array,
   schemaData: { [string]: any },
   uiSchemaData: { [string]: any },
   onChange: ({ [string]: any }, { [string]: any }) => any,
@@ -1051,6 +1114,8 @@ export function generateElementComponentsFromSchemas(parameters: {
   Section: React.AbstractComponent<{ [string]: any }>,
 }): Node[] {
   const {
+    customFields,
+    customItems,
     schemaData,
     uiSchemaData,
     onChange,
@@ -1066,7 +1131,6 @@ export function generateElementComponentsFromSchemas(parameters: {
     Card,
     Section,
   } = parameters;
-
   const schema = parse(stringify(schemaData));
   const uischema = parse(stringify(uiSchemaData));
 
@@ -1093,6 +1157,8 @@ export function generateElementComponentsFromSchemas(parameters: {
       // add a fully defined card component to the list of components
       return (
         <Card
+          customFields={customFields}
+          customItems={customItems}
           componentProps={Object.assign(
             {
               name: elementPropArr[index].name,
@@ -1247,6 +1313,20 @@ export function generateElementComponentsFromSchemas(parameters: {
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods,
+                schema,
+                uischema,
+                onChange,
+                definitionData: definitionData || {},
+                definitionUi: definitionUi || {},
+                index,
+                categoryHash,
+              });
+            } else if ((choice !== 'card') & (choice !== 'section')) {
+              addCustomField({
+                choice,
+                customFields,
+                mods,
                 schema,
                 uischema,
                 onChange,
@@ -1274,6 +1354,8 @@ export function generateElementComponentsFromSchemas(parameters: {
       // create a section with the appropriate schemas here
       return (
         <Section
+          customFields={customFields}
+          customItems={customItems}
           schema={elementProp.schema}
           uischema={elementProp.uischema}
           onChange={(
@@ -1473,6 +1555,20 @@ export function generateElementComponentsFromSchemas(parameters: {
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods,
+                schema,
+                uischema,
+                onChange,
+                definitionData: definitionData || {},
+                definitionUi: definitionUi || {},
+                index,
+                categoryHash,
+              });
+            } else if (choice !== 'card' && choice !== 'section') {
+              addCustomField({
+                choice,
+                customFields,
+                mods,
                 schema,
                 uischema,
                 onChange,
@@ -1665,12 +1761,21 @@ export function getNewElementDefaultDataOptions(
   i: number,
   mods?: Mods,
 ): DataOptions {
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const newElementDefaultInputLabel = fetchLabel(
+    'newElementDefaultInputLabel',
+    `New Input ${i}`,
+  );
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
     const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
     return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
   } else {
     return {
-      title: `New Input ${i}`,
+      title: `${newElementDefaultInputLabel} ${i}`,
       type: 'string',
       default: '',
     };
