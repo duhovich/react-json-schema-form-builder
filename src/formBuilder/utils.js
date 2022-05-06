@@ -1133,7 +1133,6 @@ export function generateElementComponentsFromSchemas(parameters: {
   } = parameters;
   const schema = parse(stringify(schemaData));
   const uischema = parse(stringify(uiSchemaData));
-
   if (!schema.properties) return [];
   const elementPropArr = generateElementPropsFromSchemas({
     schema,

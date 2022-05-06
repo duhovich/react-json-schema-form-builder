@@ -160,6 +160,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                 >
                   <ErrorBoundary onErr={() => {}}>
                     <FormBuilder
+                      isShowAlerts={true}
                       customItems={this.props.customItems}
                       schema={this.props.schema}
                       customFields={this.props.customFields}

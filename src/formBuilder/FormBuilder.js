@@ -192,7 +192,9 @@ export default function FormBuilder({
   className,
   customFields,
   customItems,
+  isShowAlerts,
 }: {
+  isShowAlerts: Boolean,
   customFields: Array,
   customItems?: Array,
   schema: string,
@@ -219,6 +221,10 @@ export default function FormBuilder({
     uiSchemaData,
     allFormInputs,
   );
+  if (unsupportedFeatures.length !== 0) {
+    console.error(unsupportedFeatures);
+  }
+
   const elementNum = countElementsFromSchema(schemaData);
   const defaultCollapseStates = [...Array(elementNum)].map(() => false);
   const [cardOpenArray, setCardOpenArray] = React.useState(
@@ -227,17 +233,20 @@ export default function FormBuilder({
   const categoryHash = generateCategoryHash(allFormInputs);
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
-      <Alert
-        style={{
-          display: unsupportedFeatures.length === 0 ? 'none' : 'block',
-        }}
-        color='warning'
-      >
-        <h5>Unsupported Features:</h5>
-        {unsupportedFeatures.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </Alert>
+      {isShowAlerts && (
+        <Alert
+          style={{
+            display: unsupportedFeatures.length === 0 ? 'none' : 'block',
+          }}
+          color='warning'
+        >
+          <h5>Unsupported Features:</h5>
+          {unsupportedFeatures.map((message, index) => (
+            <li key={index}>{message}</li>
+          ))}
+        </Alert>
+      )}
+
       {(!mods || mods.showFormHead !== false) && (
         <div className={classes.formHead} data-test='form-head'>
           <div>

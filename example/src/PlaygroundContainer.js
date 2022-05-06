@@ -70,25 +70,23 @@ const customFields = [{
 {
   name: `fullNameTEST2`,
   required: true,
-  dataOptions: {
-    title: `ПІБ2`,
-    type: 'string',
-    default: '',
-  },
-  uiOptions: {},
-  propType: 'card',
-  schema: {
-    title: `ПІБ2`,
-    type: 'string',
-    properties: {
-      secondName: { title: 'Прізвище', type: 'string' },
-      name: { title: "Ім'я", type: 'string' },
-      middleName: { title: 'По батькові', type: 'string' },
+    dataOptions: {
+      title: `Проект землеустрою`,
+      type: 'string',
+      default: ''
     },
-    required: ['secondName', 'name', 'middleName'],
-  },
-  uischema: {},
-  neighborNames: [],
+    uiOptions: {
+      'ui:widget': 'file'
+    },
+    propType: 'card',
+    schema: {
+      title: `Проект землеустрою`,
+      type: 'data-url',
+      properties: {},
+      required: []
+    },
+    uischema: {},
+    neighborNames: []
 }]
 
 const mods = {tooltipDescriptions: {
