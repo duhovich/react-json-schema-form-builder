@@ -18,14 +18,16 @@ import type { Mods } from './types';
 
 const useStyles = createUseStyles({
   addDetails: {
-    '& .popover': {
+    '& .popover local-bootstrap': {
       width: '300px',
       'z-index': '1051 !important',
-      '& .popover-inner': {
+      '& .popover-inner local-bootstrap': {
         border: '1px solid #1d71ad',
         borderRadius: '4px',
-        '& .popover-header': { borderBottom: '1px solid #1d71ad' },
-        '& .action-buttons': {
+        '& .popover-header local-bootstrap': {
+          borderBottom: '1px solid #1d71ad',
+        },
+        '& .action-buttons local-bootstrap': {
           display: 'flex',
           justifyContent: 'space-between',
           marginTop: '.5em',
