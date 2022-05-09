@@ -210,6 +210,7 @@ export default function Card({
                 />
               </span>
               <UncontrolledTooltip
+                className='local-bootstrap'
                 placement='top'
                 target={`${elementId}_moveupbiginfo`}
               >
@@ -222,6 +223,7 @@ export default function Card({
                 />
               </span>
               <UncontrolledTooltip
+                className='local-bootstrap'
                 placement='top'
                 target={`${elementId}_movedownbiginfo`}
               >
@@ -261,6 +263,7 @@ export default function Card({
             <FontAwesomeIcon icon={faTrash} onClick={onDelete || (() => {})} />
           </span>
           <UncontrolledTooltip
+            className='local-bootstrap'
             placement='top'
             target={`${elementId}_trashinfo`}
           >

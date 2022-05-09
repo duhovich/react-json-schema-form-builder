@@ -246,6 +246,7 @@ export default function DependencyField({
           />
         </span>
         <UncontrolledTooltip
+          className='local-bootstrap'
           placement='top'
           target={`${elementId}_adddependency`}
         >

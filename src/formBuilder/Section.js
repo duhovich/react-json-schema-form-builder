@@ -261,6 +261,7 @@ export default function Section({
                 />
               </span>
               <UncontrolledTooltip
+                className='local-bootstrap'
                 placement='top'
                 target={`${elementId}_moveupbiginfo`}
               >
@@ -273,6 +274,7 @@ export default function Section({
                 />
               </span>
               <UncontrolledTooltip
+                className='local-bootstrap'
                 placement='top'
                 target={`${elementId}_movedownbiginfo`}
               >
@@ -547,6 +549,7 @@ export default function Section({
               />
             </span>
             <UncontrolledTooltip
+              className='local-bootstrap'
               placement='top'
               target={`${elementId}_editinfo`}
             >
@@ -559,6 +562,7 @@ export default function Section({
               />
             </span>
             <UncontrolledTooltip
+              className='local-bootstrap'
               placement='top'
               target={`${elementId}_trashinfo`}
             >
