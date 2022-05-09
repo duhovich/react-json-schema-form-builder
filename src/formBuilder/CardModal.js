@@ -104,92 +104,94 @@ export default function CardModal({
     setComponentProps(componentProps);
   }, [componentProps]);
   return (
-    <Modal
-      isOpen={isOpen}
-      data-test='card-modal'
-      className={`${classes.cardModal} local-bootstrap`}
-    >
-      <ModalHeader className='card-modal-header local-bootstrap'>
-        <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
-          <h3>{settingsModalHeaderLabel}</h3>
-        </div>
-      </ModalHeader>
-      <ModalBody className='card-modal-entries local-bootstrap'>
-        <TypeSpecificParameters
-          mods={mods}
-          parameters={componentPropsState}
-          onChange={(newState: any) => {
-            setComponentProps({
-              ...componentPropsState,
-              ...newState,
-            });
-          }}
-        />
-        <div>
-          <h4>
-            {settingsModalColumnSizeLabel}
-            <a
-              href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <Tooltip
-                id='column_size_tooltip'
-                type='help'
-                text={settingsModalColumnSizeTooltip}
-              />
-            </a>
-          </h4>
-          <Input
-            value={
-              componentPropsState['ui:column']
-                ? componentPropsState['ui:column']
-                : ''
-            }
-            placeholder={settingsModalColumnSizeLabel}
-            key='ui:column'
-            type='number'
-            min={0}
-            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+    <div className='local-bootstrap'>
+      <Modal
+        isOpen={isOpen}
+        data-test='card-modal'
+        className={`${classes.cardModal} local-bootstrap`}
+      >
+        <ModalHeader className='card-modal-header local-bootstrap'>
+          <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
+            <h3>{settingsModalHeaderLabel}</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody className='card-modal-entries local-bootstrap'>
+          <TypeSpecificParameters
+            mods={mods}
+            parameters={componentPropsState}
+            onChange={(newState: any) => {
               setComponentProps({
                 ...componentPropsState,
-                'ui:column': ev.target.value,
+                ...newState,
               });
             }}
-            className='card-modal-text'
           />
-        </div>
-        <DependencyField
-          mods={mods}
-          parameters={(componentPropsState: { [string]: any })}
-          onChange={(newState: any) => {
-            setComponentProps({
-              ...componentPropsState,
-              ...newState,
-            });
-          }}
-        />
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          onClick={() => {
-            onClose();
-            onChange(componentPropsState);
-          }}
-          color='primary'
-        >
-          {settingsModalSaveButtonText}
-        </Button>
-        <Button
-          onClick={() => {
-            onClose();
-            setComponentProps(componentProps);
-          }}
-          color='secondary'
-        >
-          {settingsModalCancelButtonText}
-        </Button>
-      </ModalFooter>
-    </Modal>
+          <div>
+            <h4>
+              {settingsModalColumnSizeLabel}
+              <a
+                href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <Tooltip
+                  id='column_size_tooltip'
+                  type='help'
+                  text={settingsModalColumnSizeTooltip}
+                />
+              </a>
+            </h4>
+            <Input
+              value={
+                componentPropsState['ui:column']
+                  ? componentPropsState['ui:column']
+                  : ''
+              }
+              placeholder={settingsModalColumnSizeLabel}
+              key='ui:column'
+              type='number'
+              min={0}
+              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                setComponentProps({
+                  ...componentPropsState,
+                  'ui:column': ev.target.value,
+                });
+              }}
+              className='card-modal-text'
+            />
+          </div>
+          <DependencyField
+            mods={mods}
+            parameters={(componentPropsState: { [string]: any })}
+            onChange={(newState: any) => {
+              setComponentProps({
+                ...componentPropsState,
+                ...newState,
+              });
+            }}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            onClick={() => {
+              onClose();
+              onChange(componentPropsState);
+            }}
+            color='primary'
+          >
+            {settingsModalSaveButtonText}
+          </Button>
+          <Button
+            onClick={() => {
+              onClose();
+              setComponentProps(componentProps);
+            }}
+            color='secondary'
+          >
+            {settingsModalCancelButtonText}
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
   );
 }
