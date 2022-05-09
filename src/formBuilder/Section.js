@@ -539,7 +539,7 @@ export default function Section({
               customItems={customItems}
             />
           </div>
-          <div className='section-interactions'>
+          <div className='section-interactions '>
             <span id={`${elementId}_editinfo`}>
               <FontAwesomeIcon
                 icon={faPencilAlt}
@@ -573,6 +573,7 @@ export default function Section({
           </div>
         </div>
         <CardModal
+          className='local-bootstrap'
           mods={mods}
           componentProps={{
             dependents,
