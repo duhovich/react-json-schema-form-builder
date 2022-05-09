@@ -275,6 +275,7 @@ export default function Card({
           />
         </div>
         <CardModal
+          className='local-bootstrap'
           componentProps={componentProps}
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}

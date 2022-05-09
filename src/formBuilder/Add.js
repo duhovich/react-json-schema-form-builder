@@ -93,7 +93,10 @@ export default function Add({
     'Create',
   );
   return (
-    <div style={{ display: hidden ? 'none' : 'initial' }}>
+    <div
+      style={{ display: hidden ? 'none' : 'initial' }}
+      className='local-bootstrap'
+    >
       <span id={`${elementId}_add`}>
         <FontAwesomeIcon
           icon={faPlusSquare}
