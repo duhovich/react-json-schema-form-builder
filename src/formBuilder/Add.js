@@ -18,16 +18,14 @@ import type { Mods } from './types';
 
 const useStyles = createUseStyles({
   addDetails: {
-    '& .popover local-bootstrap': {
+    '& .popover': {
       width: '300px',
       'z-index': '1051 !important',
-      '& .popover-inner local-bootstrap': {
+      '& .popover-inner': {
         border: '1px solid #1d71ad',
         borderRadius: '4px',
-        '& .popover-header local-bootstrap': {
-          borderBottom: '1px solid #1d71ad',
-        },
-        '& .action-buttons local-bootstrap': {
+        '& .popover-header': { borderBottom: '1px solid #1d71ad' },
+        '& .action-buttons': {
           display: 'flex',
           justifyContent: 'space-between',
           marginTop: '.5em',
@@ -113,11 +111,13 @@ export default function Add({
         target={`${elementId}_add`}
         isOpen={popoverOpen}
         toggle={() => setPopoverOpen(false)}
-        className={`add-details ${classes.addDetails}`}
+        className={`add-details ${classes.addDetails} local-bootstrap`}
         id={`${elementId}_add_popover`}
       >
-        <PopoverHeader>{addPopoverHeaderLabel}</PopoverHeader>
-        <PopoverBody>
+        <PopoverHeader className='local-bootstrap'>
+          {addPopoverHeaderLabel}
+        </PopoverHeader>
+        <PopoverBody className='local-bootstrap'>
           <FBRadioGroup
             className='choose-create local-bootstrap'
             defaultValue={createChoice}
