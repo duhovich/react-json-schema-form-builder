@@ -17,6 +17,7 @@ import Tooltip from './Tooltip';
 
 const useStyles = createUseStyles({
   cardModal: {
+    '& .modal': { top: '5%' },
     '& .card-modal-header': { paddingTop: '.5em', paddingBottom: '.5em' },
     '& .card-modal-entries': { padding: '1em' },
     '& h4, h5, p, label, li': { marginTop: '.5em', marginBottom: '.5em' },
@@ -108,7 +109,9 @@ export default function CardModal({
       <Modal
         isOpen={isOpen}
         data-test='card-modal'
-        className={`${classes.cardModal} local-bootstrap`}
+        className={`${classes.cardModal}`}
+        contentClassName='local-bootstrap'
+        wrapClassName='local-bootstrap'
       >
         <ModalHeader className='card-modal-header local-bootstrap'>
           <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
