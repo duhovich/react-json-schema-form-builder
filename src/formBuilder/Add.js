@@ -103,7 +103,11 @@ export default function Add({
           onClick={() => setPopoverOpen(true)}
         />
       </span>
-      <UncontrolledTooltip placement='top' target={`${elementId}_add`}>
+      <UncontrolledTooltip
+        placement='top'
+        target={`${elementId}_add`}
+        className='local-bootstrap'
+      >
         {addTooltip}
       </UncontrolledTooltip>
       <Popover

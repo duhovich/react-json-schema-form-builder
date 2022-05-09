@@ -45,7 +45,7 @@ export default function Example({
       </span>
       <UncontrolledTooltip
         autohide={false}
-        className={classes.toolTip}
+        className={`${classes.toolTip} local-bootstrap`}
         placement='top'
         target={id}
       >
