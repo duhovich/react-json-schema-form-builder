@@ -35,7 +35,6 @@ const useStyles = createUseStyles({
       '& input': { margin: '0', height: '20px' },
       marginBottom: '1em',
     },
-    '& .local-bootstrap': {},
   },
 });
 
@@ -105,13 +104,17 @@ export default function CardModal({
     setComponentProps(componentProps);
   }, [componentProps]);
   return (
-    <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
-      <ModalHeader className='card-modal-header'>
+    <Modal
+      isOpen={isOpen}
+      data-test='card-modal'
+      className={`${classes.cardModal} local-bootstrap`}
+    >
+      <ModalHeader className='card-modal-header local-bootstrap'>
         <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
           <h3>{settingsModalHeaderLabel}</h3>
         </div>
       </ModalHeader>
-      <ModalBody className='card-modal-entries'>
+      <ModalBody className='card-modal-entries local-bootstrap'>
         <TypeSpecificParameters
           mods={mods}
           parameters={componentPropsState}
