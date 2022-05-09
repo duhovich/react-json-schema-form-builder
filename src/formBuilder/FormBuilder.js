@@ -373,7 +373,7 @@ export default function FormBuilder({
           </Droppable>
         </DragDropContext>
       </div>
-      <div className={`form-footer ${classes.formFooter}`}>
+      <div className={`form-footer ${classes.formFooter} local-bootstrap`}>
         <Add
           addElem={(choice: string) => {
             if (choice === 'card') {
