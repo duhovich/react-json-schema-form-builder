@@ -117,7 +117,7 @@ export default function Add({
         <PopoverHeader>{addPopoverHeaderLabel}</PopoverHeader>
         <PopoverBody>
           <FBRadioGroup
-            className='choose-create'
+            className='choose-create local-bootstrap'
             defaultValue={createChoice}
             horizontal={false}
             options={
@@ -148,7 +148,7 @@ export default function Add({
               setCreateChoice(selection);
             }}
           />
-          <div className='action-buttons'>
+          <div className='action-buttons local-bootstrap'>
             <Button onClick={() => setPopoverOpen(false)} color='secondary'>
               {addPopoverCancelButtonLabel}
             </Button>
