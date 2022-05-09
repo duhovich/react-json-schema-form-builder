@@ -35,6 +35,7 @@ const useStyles = createUseStyles({
       '& input': { margin: '0', height: '20px' },
       marginBottom: '1em',
     },
+    '& .local-bootstrap': {},
   },
 });
 
