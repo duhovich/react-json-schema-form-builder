@@ -250,7 +250,11 @@ export default function Card({
               onClick={() => setModalOpen(true)}
             />
           </span>
-          <UncontrolledTooltip placement='top' target={`${elementId}_editinfo`}>
+          <UncontrolledTooltip
+            className='local-bootstrap'
+            placement='top'
+            target={`${elementId}_editinfo`}
+          >
             {additionalConfTooltip}
           </UncontrolledTooltip>
           <span id={`${elementId}_trashinfo`}>
