@@ -232,7 +232,9 @@ export default function FormBuilder({
   );
   const categoryHash = generateCategoryHash(allFormInputs);
   return (
-    <div className={`${classes.formBuilder} ${className || ''}`}>
+    <div
+      className={`${classes.formBuilder} ${className || ''} local-bootstrap`}
+    >
       {isShowAlerts && (
         <Alert
           style={{

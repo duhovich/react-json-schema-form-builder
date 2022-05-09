@@ -243,7 +243,7 @@ export default function Card({
             showObjectNameInput={showObjectNameInput}
           />
         </div>
-        <div className={classes.cardInteractions}>
+        <div className={`${classes.cardInteractions} local-bootstrap`}>
           <span id={`${elementId}_editinfo`}>
             <FontAwesomeIcon
               icon={faPencilAlt}
