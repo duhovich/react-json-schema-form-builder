@@ -23,6 +23,7 @@ import {
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type { Node } from 'react';
 import type { Mods } from './types';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = createUseStyles({
   formBuilder: {
@@ -204,6 +205,7 @@ export default function FormBuilder({
   className?: string,
 }): Node {
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
   const schemaData = (parse(schema): { [string]: any }) || {};
   schemaData.type = 'object';
   const uiSchemaData = (parse(uischema): { [string]: any }) || {};
@@ -215,6 +217,10 @@ export default function FormBuilder({
     ),
     mods && mods.deactivatedFormInputs,
   );
+
+  // console.log(t('Welcome to React'));
+  // if (i18n.language != 'fr') i18n.changeLanguage('fr');
+  // console.log(t('Welcome to React'));
 
   const unsupportedFeatures = checkForUnsupportedFeatures(
     schemaData,
@@ -250,22 +256,10 @@ export default function FormBuilder({
       {(!mods || mods.showFormHead !== false) && (
         <div className={classes.formHead} data-test='form-head'>
           <div>
-            <h5 data-test='form-name-label'>
-              {mods &&
-              mods.labels &&
-              typeof mods.labels.formNameLabel === 'string'
-                ? mods.labels.formNameLabel
-                : 'Form Name'}
-            </h5>
+            <h5 data-test='form-name-label'>{t('formNameLabel')}</h5>
             <Input
               value={schemaData.title || ''}
-              placeholder={
-                mods &&
-                mods.labels &&
-                typeof mods.labels.formNamePlaceholder === 'string'
-                  ? mods.labels.formNamePlaceholder
-                  : 'Title'
-              }
+              placeholder={t('formNamePlaceholder')}
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
                 onChange(
@@ -281,21 +275,11 @@ export default function FormBuilder({
           </div>
           <div>
             <h5 data-test='form-description-label'>
-              {mods &&
-              mods.labels &&
-              typeof mods.labels.formDescriptionLabel === 'string'
-                ? mods.labels.formDescriptionLabel
-                : 'Form Description'}
+              {t('formDescriptionLabel')}
             </h5>
             <Input
               value={schemaData.description || ''}
-              placeholder={
-                mods &&
-                mods.labels &&
-                typeof mods.labels.formDescriptionPlaceholder === 'string'
-                  ? mods.labels.formDescriptionPlaceholder
-                  : 'Description'
-              }
+              placeholder={t('formDescriptionPlaceholder')}
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                 onChange(

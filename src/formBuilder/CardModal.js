@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   ModalHeader,
@@ -36,9 +37,10 @@ const useStyles = createUseStyles({
       marginBottom: '1em',
     },
   },
-  modalBody: {
-    top: '10% !important',
-  },
+  //TODO: Why?
+  // modalBody: {
+  //   top: '10% !important',
+  // },
 });
 
 export default function CardModal({
@@ -62,46 +64,10 @@ export default function CardModal({
   mods?: Mods,
 }): Node {
   const classes = useStyles();
+  const { t } = useTranslation();
   // assign state values for parameters that should only change on hitting "Save"
   const [componentPropsState, setComponentProps] =
     React.useState(componentProps);
-
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-  const settingsModalColumnSizeTooltip = fetchTooltip(
-    'settingsModalColumnSizeTooltip',
-    'Set the column size of the input',
-  );
-  const settingsModalHeaderLabel = fetchLabel(
-    'settingsModalHeaderLabel',
-    'Additional Settings',
-  );
-  const settingsModalColumnSizeLabel = fetchLabel(
-    'settingsModalColumnSizeLabel',
-    'Column Size',
-  );
-  const settingsModalSaveButtonText = fetchLabel(
-    'settingsModalSaveButtonText',
-    'Save',
-  );
-  const settingsModalCancelButtonText = fetchLabel(
-    'settingsModalCancelButtonText',
-    'Cancel',
-  );
 
   React.useEffect(() => {
     setComponentProps(componentProps);
@@ -118,7 +84,7 @@ export default function CardModal({
       >
         <ModalHeader className='card-modal-header local-bootstrap'>
           <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
-            <h3>{settingsModalHeaderLabel}</h3>
+            <h3>{t('settingsModalHeaderLabel')}</h3>
           </div>
         </ModalHeader>
         <ModalBody className='card-modal-entries local-bootstrap'>
@@ -134,7 +100,7 @@ export default function CardModal({
           />
           <div>
             <h4>
-              {settingsModalColumnSizeLabel}
+              {t('settingsModalColumnSizeLabel')}{' '}
               <a
                 href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
                 target='_blank'
@@ -143,7 +109,7 @@ export default function CardModal({
                 <Tooltip
                   id='column_size_tooltip'
                   type='help'
-                  text={settingsModalColumnSizeTooltip}
+                  text={t('settingsModalColumnSizeTooltip')}
                 />
               </a>
             </h4>
@@ -153,7 +119,7 @@ export default function CardModal({
                   ? componentPropsState['ui:column']
                   : ''
               }
-              placeholder={settingsModalColumnSizeLabel}
+              placeholder={t('settingsModalColumnSizeLabel')}
               key='ui:column'
               type='number'
               min={0}
@@ -185,7 +151,7 @@ export default function CardModal({
             }}
             color='primary'
           >
-            {settingsModalSaveButtonText}
+            {t('settingsModalSaveButtonText')}
           </Button>
           <Button
             onClick={() => {
@@ -194,7 +160,7 @@ export default function CardModal({
             }}
             color='secondary'
           >
-            {settingsModalCancelButtonText}
+            {t('settingsModalCancelButtonText')}
           </Button>
         </ModalFooter>
       </Modal>

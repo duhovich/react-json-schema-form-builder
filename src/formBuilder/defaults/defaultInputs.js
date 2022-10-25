@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from '../../i18n';
 import { Input } from 'reactstrap';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
@@ -36,25 +38,14 @@ const getInputCardBodyComponent = ({ type }: { type: string }) =>
     onChange: (newParams: Parameters) => void,
     mods: Mods,
   }) {
-    const fetchLabel = (labelName: string, defaultLabel: string): string => {
-      return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-        ? mods.labels[labelName]
-        : defaultLabel;
-    };
-    const inputDefaultValueLabel = fetchLabel(
-      'inputDefaultValueLabel',
-      'Default value',
-    );
-    const inputDefaultValuePlaceholder = fetchLabel(
-      'inputDefaultValuePlaceholder',
-      'Default ',
-    );
+    const { t } = useTranslation();
+
     return (
       <React.Fragment>
-        <h5>{inputDefaultValueLabel}</h5>
+        <h5>{t('inputDefaultValueLabel')}</h5>
         <Input
           value={parameters.default || ''}
-          placeholder={inputDefaultValuePlaceholder}
+          placeholder={t('inputDefaultValuePlaceholder')}
           type={type}
           onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
             onChange({ ...parameters, default: ev.target.value })
@@ -74,16 +65,7 @@ function Checkbox({
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const inputDefaultCheckboxLabel = fetchLabel(
-    'inputDefaultCheckboxLabel',
-    'Default',
-  );
-
+  const { t } = useTranslation();
   return (
     <div className='card-boolean'>
       <FBCheckbox
@@ -94,7 +76,7 @@ function Checkbox({
           });
         }}
         isChecked={parameters.default ? parameters.default === true : false}
-        label={inputDefaultCheckboxLabel}
+        label={t('inputDefaultCheckboxLabel')}
       />
     </div>
   );
@@ -110,6 +92,7 @@ function MultipleChoice({
   mods: Mods,
 }) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
   // eslint-disable-next-line no-restricted-globals
   const containsUnparsableString = enumArray.some((val) => isNaN(val));
@@ -120,26 +103,10 @@ function MultipleChoice({
     !!enumArray.length && !containsString,
   );
   const [elementId] = React.useState(getRandomId());
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const dropdownPossibleValuesLabel = fetchLabel(
-    'dropdownPossibleValuesLabel',
-    'Possible Values',
-  );
-  const dropdownPossibleValuesDescriptionLabel = fetchLabel(
-    'dropdownPossibleValuesDescriptionLabel',
-    'Display label is different from value',
-  );
-  const dropdownForceNumberDescriptionLabel = fetchLabel(
-    'dropdownForceNumberDescriptionLabel',
-    'Force number',
-  );
+
   return (
     <div className='card-enum'>
-      <h3>{dropdownPossibleValuesLabel}</h3>
+      <h3>{t('dropdownPossibleValuesLabel')}</h3>
       <FBCheckbox
         onChangeValue={() => {
           if (Array.isArray(parameters.enumNames)) {
@@ -157,7 +124,7 @@ function MultipleChoice({
           }
         }}
         isChecked={Array.isArray(parameters.enumNames)}
-        label={dropdownPossibleValuesDescriptionLabel}
+        label={t('dropdownPossibleValuesDescriptionLabel')}
         id={`${elementId}_different`}
       />
       <div
@@ -198,7 +165,7 @@ function MultipleChoice({
           }}
           isChecked={isNumber}
           disabled={containsUnparsableString}
-          label={dropdownForceNumberDescriptionLabel}
+          label={t('dropdownForceNumberDescriptionLabel')}
           id={`${elementId}_forceNumber`}
         />
       </div>
@@ -226,7 +193,7 @@ function MultipleChoice({
 
 const defaultInputs: { [string]: FormInput } = {
   dateTime: {
-    displayName: 'Date-Time',
+    displayName: i18next.t('dateTime'),
     matchIf: [
       {
         types: ['string'],
@@ -242,7 +209,7 @@ const defaultInputs: { [string]: FormInput } = {
     modalBody: CardDefaultParameterInputs,
   },
   date: {
-    displayName: 'Date',
+    displayName: i18next.t('date'),
     matchIf: [
       {
         types: ['string'],
@@ -258,7 +225,7 @@ const defaultInputs: { [string]: FormInput } = {
     modalBody: CardDefaultParameterInputs,
   },
   time: {
-    displayName: 'Time',
+    displayName: i18next.t('time'),
     matchIf: [
       {
         types: ['string'],
@@ -274,7 +241,7 @@ const defaultInputs: { [string]: FormInput } = {
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {
-    displayName: 'Checkbox',
+    displayName: i18next.t('checkBox'),
     matchIf: [
       {
         types: ['boolean'],
@@ -287,7 +254,7 @@ const defaultInputs: { [string]: FormInput } = {
     modalBody: CardDefaultParameterInputs,
   },
   radio: {
-    displayName: 'Radio',
+    displayName: i18next.t('radio'),
     matchIf: [
       {
         types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
@@ -304,7 +271,7 @@ const defaultInputs: { [string]: FormInput } = {
     modalBody: CardDefaultParameterInputs,
   },
   dropdown: {
-    displayName: 'Dropdown',
+    displayName: i18next.t('dropDown'),
     matchIf: [
       {
         types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],

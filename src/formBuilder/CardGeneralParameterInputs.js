@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { Input, FormGroup, FormFeedback } from 'reactstrap';
 import classnames from 'classnames';
@@ -31,6 +32,7 @@ export default function CardGeneralParameterInputs({
   allFormInputs: { [string]: FormInput },
   showObjectNameInput?: boolean,
 }): Node {
+  const { t } = useTranslation();
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [keyError, setKeyError] = React.useState(null);
   const [titleState, setTitleState] = React.useState(parameters.title);
@@ -39,20 +41,6 @@ export default function CardGeneralParameterInputs({
   );
   const [elementId] = React.useState(getRandomId());
   const categoryMap = categoryToNameMap(parameters.category, allFormInputs);
-
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-
-  const objectNameLabel = fetchLabel('objectNameLabel', 'Object Name');
-  const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
-  const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
-  const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
-  const cgpiKeyPlaceholder = fetchLabel('cgpiKeyPlaceholder', 'Key');
-  const cgpiTitlePlaceholder = fetchLabel('cgpiTitlePlaceholder', 'Title');
-  const cgpiDescPlaceholder = fetchLabel('cgpiDescPlaceholder', 'Description');
 
   const availableInputTypes = () => {
     const definitionsInSchema =
@@ -77,15 +65,9 @@ export default function CardGeneralParameterInputs({
         {showObjectNameInput && (
           <div className='card-entry'>
             <h5>
-              {`${objectNameLabel} `}
+              {`${t('objectNameLabel')} `}
               <Tooltip
-                text={
-                  mods &&
-                  mods.tooltipDescriptions &&
-                  typeof mods.tooltipDescriptions.cardObjectName === 'string'
-                    ? mods.tooltipDescriptions.cardObjectName
-                    : 'The back-end name of the object'
-                }
+                text={t('cardObjectName')}
                 id={`${elementId}_nameinfo`}
                 type='help'
               />
@@ -95,7 +77,7 @@ export default function CardGeneralParameterInputs({
               <Input
                 invalid={keyError !== null}
                 value={keyState || ''}
-                placeholder={cgpiKeyPlaceholder}
+                placeholder={t('cgpiKeyPlaceholder')}
                 type='text'
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   setKeyState(ev.target.value)
@@ -132,22 +114,16 @@ export default function CardGeneralParameterInputs({
           }`}
         >
           <h5>
-            {`${displayNameLabel} `}
+            {`${t('displayNameLabel')} `}
             <Tooltip
-              text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardDisplayName === 'string'
-                  ? mods.tooltipDescriptions.cardDisplayName
-                  : 'The user-facing name of this object'
-              }
+              text={t('cardDisplayName')}
               id={`${elementId}-titleinfo`}
               type='help'
             />
           </h5>
           <Input
             value={titleState || ''}
-            placeholder={cgpiTitlePlaceholder}
+            placeholder={t('cgpiTitlePlaceholder')}
             type='text'
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
               setTitleState(ev.target.value)
@@ -164,15 +140,9 @@ export default function CardGeneralParameterInputs({
           className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
         >
           <h5>
-            {`${descriptionLabel} `}
+            {`${t('descriptionLabel')} `}
             <Tooltip
-              text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardDescription === 'string'
-                  ? mods.tooltipDescriptions.cardDescription
-                  : 'This will appear as help text on the form'
-              }
+              text={t('cardDescription')}
               id={`${elementId}-descriptioninfo`}
               type='help'
             />
@@ -180,7 +150,7 @@ export default function CardGeneralParameterInputs({
           <FormGroup>
             <Input
               value={descriptionState || ''}
-              placeholder={cgpiDescPlaceholder}
+              placeholder={t('cgpiDescPlaceholder')}
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                 setDescriptionState(ev.target.value)
@@ -198,15 +168,9 @@ export default function CardGeneralParameterInputs({
           })}
         >
           <h5>
-            {`${inputTypeLabel} `}
+            {`${t('inputTypeLabel')} `}
             <Tooltip
-              text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardInputType === 'string'
-                  ? mods.tooltipDescriptions.cardInputType
-                  : 'The type of form input displayed on the form'
-              }
+              text={t('cardInputType')}
               id={`${elementId}-inputinfo`}
               type='help'
             />
@@ -216,7 +180,7 @@ export default function CardGeneralParameterInputs({
               value: parameters.category,
               label: categoryMap[parameters.category],
             }}
-            placeholder={inputTypeLabel}
+            placeholder={t('inputTypeLabel')}
             options={availableInputTypes()}
             onChange={(val: any) => {
               // figure out the new 'type'

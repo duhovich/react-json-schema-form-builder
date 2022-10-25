@@ -1,6 +1,8 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from '../../i18n';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
@@ -18,70 +20,21 @@ function CardNumberParameterInputs({
   onChange: (newParams: Parameters) => void,
 }) {
   const [elementId] = useState(getRandomId());
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
+  const { t } = useTranslation();
 
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-  const settingsModalInputNumberMultOfTooltip = fetchTooltip(
-    'settingsModalInputNumberMultOfTooltip',
-    'Require number to be a multiple of this number',
-  );
-  const settingsModalInputNumberMultOfLabel = fetchLabel(
-    'settingsModalInputNumberMultOfLabel',
-    'Multiple of',
-  );
-  const settingsModalInputNumberMultOfPlaceholder = fetchLabel(
-    'settingsModalInputNumberMultOfPlaceholder',
-  );
-  const settingsModalInputNumberMinLabel = fetchLabel(
-    'settingsModalInputNumberMinLabel',
-    'Minimum',
-  );
-  const settingsModalInputNumberMinPlaceholder = fetchLabel(
-    'settingsModalInputNumberMinPlaceholder',
-    'ex: 3',
-  );
-  const settingsModalInputNumberCheckBoxExMinLabel = fetchLabel(
-    'settingsModalInputNumberCheckBoxExMinLabel',
-    'Exclusive Minimum',
-  );
-  const settingsModalInputNumberMaxLabel = fetchLabel(
-    'settingsModalInputNumberMaxLabel',
-    'Maximum',
-  );
-  const settingsModalInputNumberMaxPlaceholder = fetchLabel(
-    'settingsModalInputNumberMaxPlaceholder',
-    'ex: 8',
-  );
-  const settingsModalInputNumberCheckBoxExMaxLabel = fetchLabel(
-    'settingsModalInputNumberCheckBoxExMaxLabel',
-    'Exclusive Maximum',
-  );
   return (
     <div>
       <h4>
-        {settingsModalInputNumberMultOfLabel}
+        {t('settingsModalInputNumberMultOfLabel')}
         <Tooltip
           id={`${elementId}_multiple`}
           type='help'
-          text={settingsModalInputNumberMultOfTooltip}
+          text={t('settingsModalInputNumberMultOfTooltip')}
         />
       </h4>
       <Input
         value={parameters.multipleOf ? parameters.multipleOf : ''}
-        placeholder={settingsModalInputNumberMultOfPlaceholder}
+        placeholder={t('settingsModalInputNumberMultOfPlaceholder')}
         key='multipleOf'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -94,10 +47,10 @@ function CardNumberParameterInputs({
         }}
         className='card-modal-number'
       />
-      <h4>{settingsModalInputNumberMinLabel}</h4>
+      <h4>{t('settingsModalInputNumberMinLabel')}</h4>
       <Input
         value={parameters.minimum || parameters.exclusiveMinimum || ''}
-        placeholder={settingsModalInputNumberMinPlaceholder}
+        placeholder={t('settingsModalInputNumberMinPlaceholder')}
         key='minimum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -141,13 +94,13 @@ function CardNumberParameterInputs({
           }}
           isChecked={!!parameters.exclusiveMinimum}
           disabled={!parameters.minimum && !parameters.exclusiveMinimum}
-          label={settingsModalInputNumberCheckBoxExMinLabel}
+          label={t('settingsModalInputNumberCheckBoxExMinLabel')}
         />
       </div>
-      <h4>{settingsModalInputNumberMaxLabel}</h4>
+      <h4>{t('settingsModalInputNumberMaxLabel')}</h4>
       <Input
         value={parameters.maximum || parameters.exclusiveMaximum || ''}
-        placeholder={settingsModalInputNumberMaxPlaceholder}
+        placeholder={t('settingsModalInputNumberMaxPlaceholder')}
         key='maximum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -191,7 +144,7 @@ function CardNumberParameterInputs({
           }}
           isChecked={!!parameters.exclusiveMaximum}
           disabled={!parameters.maximum && !parameters.exclusiveMaximum}
-          label={settingsModalInputNumberCheckBoxExMaxLabel}
+          label={t('settingsModalInputNumberCheckBoxExMaxLabel')}
         />
       </div>
     </div>
@@ -207,25 +160,14 @@ function NumberField({
   onChange: (newParams: Parameters) => void,
   mods: Mods,
 }) {
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const inputDefaultNumberLabel = fetchLabel(
-    'inputDefaultNumberLabel',
-    'Default number',
-  );
-  const inputDefaultNumberPlaceholder = fetchLabel(
-    'inputDefaultNumberPlaceholder',
-    'Default',
-  );
+  const { t } = useTranslation();
+
   return (
     <React.Fragment>
-      <h5>{inputDefaultNumberLabel}</h5>
+      <h5>{t('inputDefaultNumberLabel')}</h5>
       <Input
         value={parameters.default}
-        placeholder={inputDefaultNumberPlaceholder}
+        placeholder={t('inputDefaultNumberPlaceholder')}
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({
@@ -241,7 +183,7 @@ function NumberField({
 
 const numberInputs: { [string]: FormInput } = {
   integer: {
-    displayName: 'Integer',
+    displayName: i18next.t('integer'),
     matchIf: [
       {
         types: ['integer'],
@@ -258,7 +200,7 @@ const numberInputs: { [string]: FormInput } = {
     modalBody: CardNumberParameterInputs,
   },
   number: {
-    displayName: 'Number',
+    displayName: i18next.t('number'),
     matchIf: [
       {
         types: ['number'],

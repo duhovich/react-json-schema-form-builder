@@ -1,6 +1,8 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from '../../i18n';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
@@ -19,61 +21,14 @@ function CardLongAnswerParameterInputs({
   onChange: (newParams: Parameters) => void,
 }) {
   const [elementId] = useState(getRandomId());
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-  const settingsModalInputRegExpTooltip = fetchTooltip(
-    'settingsModalInputRegExpTooltip',
-    'Regular expression pattern that this must satisfy',
-  );
-  const settingsModalInputMinLengthLabel = fetchLabel(
-    'settingsModalInputMinLengthLabel',
-    'Minimum Length',
-  );
-  const settingsModalInputMinLengthPlaceholder = fetchLabel(
-    'settingsModalInputMinLengthPlaceholder',
-    'Minimum Length',
-  );
-  const settingsModalInputMaxLengthLabel = fetchLabel(
-    'settingsModalInputMaxLengthLabel',
-    'Maximum Length',
-  );
-  const settingsModalInputMaxLengthPlaceholder = fetchLabel(
-    'settingsModalInputMaxLengthPlaceholder',
-    'Maximum Length',
-  );
-  const settingsModalInputRegExpLabel = fetchLabel(
-    'settingsModalInputRegExpLabel',
-    'Regular Expression Pattern',
-  );
-  const settingsModalInputRegExpPlaceholder = fetchLabel(
-    'settingsModalInputRegExpPlaceholder',
-    'Regular Expression Pattern',
-  );
-  const settingsModalInputAutoFocusLabel = fetchLabel(
-    'settingsModalInputAutoFocusLabel',
-    'Auto focus',
-  );
+  const { t } = useTranslation();
 
   return (
     <div>
-      <h4>{settingsModalInputMinLengthLabel}</h4>
+      <h4>{t('settingsModalInputMinLengthLabel')}</h4>
       <Input
         value={parameters.minLength ? parameters.minLength : ''}
-        placeholder={settingsModalInputMinLengthPlaceholder}
+        placeholder={t('settingsModalInputMinLengthPlaceholder')}
         key='minLength'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -84,10 +39,10 @@ function CardLongAnswerParameterInputs({
         }}
         className='card-modal-number'
       />
-      <h4>{settingsModalInputMaxLengthLabel}</h4>
+      <h4>{t('settingsModalInputMaxLengthLabel')}</h4>
       <Input
         value={parameters.maxLength ? parameters.maxLength : ''}
-        placeholder={settingsModalInputMaxLengthPlaceholder}
+        placeholder={t('settingsModalInputMaxLengthPlaceholder')}
         key='maxLength'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -99,18 +54,18 @@ function CardLongAnswerParameterInputs({
         className='card-modal-number'
       />
       <h4>
-        {settingsModalInputRegExpLabel}
+        {t('settingsModalInputRegExpLabel')}{' '}
         <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'>
           <Tooltip
             id={`${elementId}_regex`}
             type='help'
-            text={settingsModalInputRegExpTooltip}
+            text={t('settingsModalInputRegExpTooltip')}
           />
         </a>
       </h4>
       <Input
         value={parameters.pattern ? parameters.pattern : ''}
-        placeholder={settingsModalInputRegExpPlaceholder}
+        placeholder={t('settingsModalInputRegExpPlaceholder')}
         key='pattern'
         type='text'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -141,7 +96,7 @@ function CardLongAnswerParameterInputs({
               ? parameters['ui:autofocus'] === true
               : false
           }
-          label={settingsModalInputAutoFocusLabel}
+          label={t('settingsModalInputAutoFocusLabel')}
         />
       </div>
     </div>
@@ -157,25 +112,14 @@ function LongAnswer({
   onChange: (newParams: Parameters) => void,
   mods: Mods,
 }) {
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const inputDefaultValueLabel = fetchLabel(
-    'inputDefaultValueLabel',
-    'Default value',
-  );
-  const inputDefaultValuePlaceholder = fetchLabel(
-    'inputDefaultValuePlaceholder',
-    'Default',
-  );
+  const { t } = useTranslation();
+
   return (
     <React.Fragment>
-      <h5>{inputDefaultValueLabel}</h5>
+      <h5>{t('inputDefaultValueLabel')}</h5>
       <Input
         value={parameters.default}
-        placeholder={inputDefaultValuePlaceholder}
+        placeholder={t('inputDefaultValuePlaceholder')}
         type='textarea'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({ ...parameters, default: ev.target.value })
@@ -188,7 +132,7 @@ function LongAnswer({
 
 const longAnswerInput: { [string]: FormInput } = {
   longAnswer: {
-    displayName: 'Long Answer',
+    displayName: i18next.t('longAnswer'),
     matchIf: [
       {
         types: ['string'],

@@ -1,5 +1,6 @@
 // @flow
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
@@ -165,6 +166,7 @@ export default function Section({
   categoryHash: { [string]: string },
 }): Node {
   const classes = useStyles();
+  const { t } = useTranslation();
   const unsupportedFeatures = checkForUnsupportedFeatures(
     schema || {},
     uischema || {},
@@ -182,57 +184,6 @@ export default function Section({
   // keep requirements in state to avoid rapid updates
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
-
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-
-  const moveElementUpButtonTooltip = fetchTooltip(
-    'moveElementUpButtonTooltip',
-    'Move form element up',
-  );
-  const moveElementDownButtonTooltip = fetchTooltip(
-    'moveElementDownButtonTooltip',
-    'Move form element down',
-  );
-
-  const additionalConfTooltip = fetchTooltip(
-    'additionalConfTooltip',
-    'Additional configurations for this form element',
-  );
-  const deleteFormElTooltip = fetchTooltip(
-    'deleteFormElTooltip',
-    'Delete form element',
-  );
-  const requiredChkbxLabel = fetchLabel('requiredChkbxLabel', 'Required');
-  const sectionObjectNameLabel = fetchLabel(
-    'sectionObjectNameLabel',
-    'Section Object Name',
-  );
-  const sectionDisplayNameLabel = fetchLabel(
-    'sectionDisplayNameLabel',
-    'Section Display Name',
-  );
-  const sectionDescriptionLabel = fetchLabel(
-    'sectionDescriptionLabel',
-    'Section Description',
-  );
-  const cgpiKeyPlaceholder = fetchLabel('cgpiKeyPlaceholder', 'Key');
-  const cgpiTitlePlaceholder = fetchLabel('cgpiTitlePlaceholder', 'Title');
-  const cgpiDescPlaceholder = fetchLabel('cgpiDescPlaceholder', 'Description');
 
   return (
     <React.Fragment>
@@ -265,7 +216,7 @@ export default function Section({
                 placement='top'
                 target={`${elementId}_moveupbiginfo`}
               >
-                {moveElementUpButtonTooltip}
+                {t('moveElementUpButtonTooltip')}
               </UncontrolledTooltip>
               <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
@@ -278,7 +229,7 @@ export default function Section({
                 placement='top'
                 target={`${elementId}_movedownbiginfo`}
               >
-                {moveElementDownButtonTooltip}
+                {t('moveElementDownButtonTooltip')}
               </UncontrolledTooltip>
             </span>
           </React.Fragment>
@@ -315,17 +266,9 @@ export default function Section({
             )}
             <div className='section-entry' data-test='section-object-name'>
               <h5>
-                {sectionObjectNameLabel}{' '}
+                {t('sectionObjectNameLabel')}{' '}
                 <Tooltip
-                  text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionObjectName ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionObjectName
-                      : 'The key to the object that will represent this form section.'
-                  }
+                  text={t('cardSectionObjectName')}
                   id={`${elementId}_nameinfo`}
                   type='help'
                 />
@@ -334,7 +277,7 @@ export default function Section({
                 <Input
                   invalid={keyError !== null}
                   value={keyName || ''}
-                  placeholder={cgpiKeyPlaceholder}
+                  placeholder={t('cgpiKeyPlaceholder')}
                   type='text'
                   onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                     setKeyName(ev.target.value)
@@ -361,24 +304,16 @@ export default function Section({
             </div>
             <div className='section-entry' data-test='section-display-name'>
               <h5>
-                {sectionDisplayNameLabel}{' '}
+                {t('sectionDisplayNameLabel')}{' '}
                 <Tooltip
-                  text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionDisplayName ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionDisplayName
-                      : 'The name of the form section that will be shown to users of the form.'
-                  }
+                  text={t('cardSectionDisplayName')}
                   id={`${elementId}_titleinfo`}
                   type='help'
                 />
               </h5>
               <Input
                 value={schemaData.title || ''}
-                placeholder={cgpiTitlePlaceholder}
+                placeholder={t('cgpiTitlePlaceholder')}
                 type='text'
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   onChange(
@@ -394,24 +329,16 @@ export default function Section({
             </div>
             <div className='section-entry' data-test='section-description'>
               <h5>
-                {sectionDescriptionLabel}{' '}
+                {t('sectionDescriptionLabel')}{' '}
                 <Tooltip
-                  text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionDescription ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionDescription
-                      : 'A description of the section which will be visible on the form.'
-                  }
+                  text={t('cardSectionDescription')}
                   id={`${elementId}_descriptioninfo`}
                   type='help'
                 />
               </h5>
               <Input
                 value={schemaData.description || ''}
-                placeholder={cgpiDescPlaceholder}
+                placeholder={t('cgpiDescPlaceholder')}
                 type='text'
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   onChange(
@@ -553,7 +480,7 @@ export default function Section({
               placement='top'
               target={`${elementId}_editinfo`}
             >
-              {additionalConfTooltip}
+              {t('additionalConfTooltip')}
             </UncontrolledTooltip>
             <span id={`${elementId}_trashinfo`}>
               <FontAwesomeIcon
@@ -566,12 +493,12 @@ export default function Section({
               placement='top'
               target={`${elementId}_trashinfo`}
             >
-              {deleteFormElTooltip}
+              {t('deleteFormElTooltip')}
             </UncontrolledTooltip>
             <FBCheckbox
               onChangeValue={() => onRequireToggle()}
               isChecked={required}
-              label={requiredChkbxLabel}
+              label={t('requiredChkbxLabel')}
               id={`${elementId}_required`}
             />
           </div>

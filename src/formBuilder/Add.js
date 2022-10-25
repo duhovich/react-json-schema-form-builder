@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Popover,
   PopoverHeader,
@@ -47,51 +48,11 @@ export default function Add({
   mods?: Mods,
 }): Node {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState('card');
   const [elementId] = useState(getRandomId());
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
 
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-
-  const addTooltip = fetchTooltip('add', 'Create new form element');
-  const addPopoverHeaderLabel = fetchLabel(
-    'addPopoverHeaderLabel',
-    'Create New',
-  );
-  const addPopoverFormFullNameLabel = fetchLabel(
-    'addPopoverFormFullNameLabel',
-    'Full name',
-  );
-  const addPopoverFormElementLabel = fetchLabel(
-    'addPopoverFormElementLabel',
-    'Form element',
-  );
-  const addPopoverFormSectionLabel = fetchLabel(
-    'addPopoverFormSectionLabel',
-    'Form section',
-  );
-  const addPopoverCancelButtonLabel = fetchLabel(
-    'addPopoverCancelButtonLabel',
-    'Cancel',
-  );
-  const addPopoverCreateButtonLabel = fetchLabel(
-    'addPopoverCreateButtonLabel',
-    'Create',
-  );
   return (
     <div
       style={{ display: hidden ? 'none' : 'initial' }}
@@ -108,7 +69,7 @@ export default function Add({
         target={`${elementId}_add`}
         className='local-bootstrap'
       >
-        {addTooltip}
+        {t('addTooltip')}
       </UncontrolledTooltip>
       <Popover
         placement='bottom'
@@ -119,7 +80,7 @@ export default function Add({
         id={`${elementId}_add_popover`}
       >
         <PopoverHeader className='local-bootstrap'>
-          {addPopoverHeaderLabel}
+          {t('addPopoverHeaderLabel')}
         </PopoverHeader>
         <PopoverBody className='local-bootstrap'>
           <FBRadioGroup
@@ -131,22 +92,22 @@ export default function Add({
                 ? [
                     {
                       value: 'card',
-                      label: addPopoverFormElementLabel,
+                      label: t('addPopoverFormElementLabel'),
                     },
                     {
                       value: 'section',
-                      label: addPopoverFormSectionLabel,
+                      label: t('addPopoverFormSectionLabel'),
                     },
                     ...customItems,
                   ]
                 : [
                     {
                       value: 'card',
-                      label: addPopoverFormElementLabel,
+                      label: t('addPopoverFormElementLabel'),
                     },
                     {
                       value: 'section',
-                      label: addPopoverFormSectionLabel,
+                      label: t('addPopoverFormSectionLabel'),
                     },
                   ]
             }
@@ -156,7 +117,7 @@ export default function Add({
           />
           <div className='action-buttons local-bootstrap'>
             <Button onClick={() => setPopoverOpen(false)} color='secondary'>
-              {addPopoverCancelButtonLabel}
+              {t('addPopoverCancelButtonLabel')}
             </Button>
             <Button
               onClick={() => {
@@ -165,7 +126,7 @@ export default function Add({
               }}
               color='primary'
             >
-              {addPopoverCreateButtonLabel}
+              {t('addPopoverCreateButtonLabel')}
             </Button>
           </div>
         </PopoverBody>

@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { UncontrolledTooltip } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -82,55 +83,18 @@ export default function DependencyField({
 }): Node {
   const [elementId] = useState(getRandomId());
   const classes = useStyles();
-  const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
+  const { t } = useTranslation();
 
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-  const settingsModalDependenciesTooltip = fetchTooltip(
-    'settingsModalDependenciesTooltip',
-    'Control whether other form elements show based on this one',
-  );
-  const settingsModalDependenciesAddTooltip = fetchTooltip(
-    'settingsModalDependenciesAddTooltip',
-    'Add another dependency relation linking this element and other form elements',
-  );
-  const settingsModalDependenciesSpecificTooltip = fetchTooltip(
-    'settingsModalDependenciesSpecificTooltip',
-    "Specify whether these elements should show based on this element's value",
-  );
-  const settingsModalDependenciesLabel = fetchLabel(
-    'settingsModalDependenciesLabel',
-    'Dependencies',
-  );
-  const settingsModalDependenciesAnyLabel = fetchLabel(
-    'settingsModalDependenciesAnyLabel',
-    'Any value dependency',
-  );
-  const settingsModalDependenciesSpecificLabel = fetchLabel(
-    'settingsModalDependenciesSpecificLabel',
-    'Specific value dependency',
-  );
+  const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
+
   return (
     <div className={`form-dependency ${classes.dependencyField}`}>
       <h4>
-        {settingsModalDependenciesLabel}
+        {t('settingsModalDependenciesLabel')}{' '}
         <Tooltip
           id={`${elementId}_dependent`}
           type='help'
-          text={settingsModalDependenciesTooltip}
+          text={t('settingsModalDependenciesTooltip')}
         />
       </h4>
       {!!parameters.dependents && parameters.dependents.length > 0 && (
@@ -141,17 +105,17 @@ export default function DependencyField({
             options={[
               {
                 value: 'definition',
-                label: settingsModalDependenciesAnyLabel,
+                label: t('settingsModalDependenciesAnyLabel'),
               },
               {
                 value: 'value',
                 label: (
                   <React.Fragment>
-                    {settingsModalDependenciesSpecificLabel}
+                    {t('settingsModalDependenciesSpecificLabel')}{' '}
                     <Tooltip
                       id={`${elementId}_valuebased`}
                       type='help'
-                      text={settingsModalDependenciesSpecificTooltip}
+                      text={t('settingsModalDependenciesSpecificTooltip')}
                     />
                   </React.Fragment>
                 ),
@@ -250,7 +214,7 @@ export default function DependencyField({
           placement='top'
           target={`${elementId}_adddependency`}
         >
-          {settingsModalDependenciesAddTooltip}
+          {t('settingsModalDependenciesAddTooltip')}
         </UncontrolledTooltip>
       </div>
     </div>
