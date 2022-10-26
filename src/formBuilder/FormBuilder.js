@@ -194,7 +194,9 @@ export default function FormBuilder({
   customFields,
   customItems,
   isShowAlerts,
+  language,
 }: {
+  language?: string,
   isShowAlerts: Boolean,
   customFields: Array,
   customItems?: Array,
@@ -218,9 +220,11 @@ export default function FormBuilder({
     mods && mods.deactivatedFormInputs,
   );
 
-  // console.log(t('Welcome to React'));
-  // if (i18n.language != 'fr') i18n.changeLanguage('fr');
-  // console.log(t('Welcome to React'));
+  if (language) {
+    if (i18n.language !== language && i18n.languages.includes(language)) {
+      i18n.changeLanguage(language);
+    }
+  }
 
   const unsupportedFeatures = checkForUnsupportedFeatures(
     schemaData,
