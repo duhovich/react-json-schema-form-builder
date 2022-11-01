@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     '& .card-modal-entries': { padding: '1em' },
     '& h4, h5, p, label, li': { marginTop: '.5em', marginBottom: '.5em' },
     '& h5, p, label, li': { fontSize: '14px' },
-    '& h4': { fontSize: '16px' },
+    '& h4': { fontSize: '16px', fontWeight: '500' },
     '& h3': { fontSize: '18px', marginBottom: 0 },
     '& .card-modal-entries > div > input': {
       marginBottom: '1em',

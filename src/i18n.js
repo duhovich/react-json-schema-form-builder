@@ -203,7 +203,7 @@ const resources = {
       addPopoverFormElementLabel: 'Елемент форми',
       addPopoverFormSectionLabel: 'Секцію форми',
       addPopoverCancelButtonLabel: 'Скасувати',
-      addPopoverCreateButtonLabel: 'Створювати',
+      addPopoverCreateButtonLabel: 'Створити',
       //Card.js & Section.js
       requiredChkbxLabel: "Обов'язковий",
       //CardEnumOptions.js
@@ -275,7 +275,7 @@ const resources = {
 
       settingsModalInputFormatItemEmail: 'Електронна пошта',
       settingsModalInputFormatItemHostname: "Ім'я хоста",
-      settingsModalInputFormatItemURI: 'uri',
+      settingsModalInputFormatItemURI: 'Посилання',
       settingsModalInputFormatItemRegEx: 'Регулярний вираз',
       settingsModalInputAutoCompleteUserName: "Ім'я користувача",
       settingsModalInputAutoCompleteItemPassword: 'Пароль',

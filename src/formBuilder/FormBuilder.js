@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Alert, Input } from 'reactstrap';
+import { Alert, Input, Form, Row, Col, FormGroup, Label } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import Card from './Card';
 import Section from './Section';
@@ -45,32 +45,28 @@ const useStyles = createUseStyles({
     },
     ...arrowsStyle,
     '& .card-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
+      '&:hover': {},
       display: 'block',
-      width: '70%',
+      // width: '70%',
       'min-width': '400px',
-      margin: '2em auto',
-      border: '1px solid gray',
+      margin: '2em 20px',
+      border: '1px solid rgba(0,0,0,.225)',
       'border-radius': '4px',
       'background-color': 'white',
-      '& h4': {
-        width: '100%',
-        'text-align': 'left',
-        display: 'inline-block',
-        color: '#138AC2',
-        margin: '0.25em .5em 0 .5em',
-        'font-size': '18px',
-      },
-      '& .d-flex': {
-        'border-bottom': '1px solid gray',
+      'box-shadow': 'rgb(0 0 0 / 10%) 0px 1px 3px 0px',
+      '& .collapse-head': {
+        'border-bottom': '1px solid rgba(0,0,0,.125)',
       },
       '& .label': {
-        float: 'left',
+        width: '100%',
+        'font-size': '18px',
+        'text-align': 'left',
+        'font-weight': '500',
+        margin: '10px',
+        color: '#0009',
       },
     },
-    '& .card-container:hover': { border: '1px solid green' },
+    '& .card-container:hover': {},
     '& .card-dependent': {
       border: '1px dashed gray',
     },
@@ -78,16 +74,14 @@ const useStyles = createUseStyles({
       border: '1px dashed black',
     },
     '& .section-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
+      '&:hover': {},
       display: 'block',
-      width: '90%',
       'min-width': '400px',
-      margin: '2em auto',
-      border: '1px solid gray',
+      margin: '1.5em 20px',
+      border: '1px solid rgba(0,0,0,.225)',
       'border-radius': '4px',
       'background-color': 'white',
+      'box-shadow': 'rgb(0 0 0 / 25%) 0px 1px 3px 0px',
       '& h4': {
         width: '100%',
         'text-align': 'left',
@@ -96,14 +90,17 @@ const useStyles = createUseStyles({
         margin: '0.25em .5em 0 .5em',
         'font-size': '18px',
       },
-      '& .d-flex': {
-        'border-bottom': '1px solid gray',
-      },
+      '& .collapse-head': { 'border-bottom': '1px solid rgba(0,0,0,.125)' },
       '& .label': {
-        float: 'left',
+        width: '100%',
+        'font-size': '18px',
+        'text-align': 'left',
+        'font-weight': '500',
+        margin: '10px',
+        color: '#0009',
       },
     },
-    '& .section-container:hover': { border: '1px solid green' },
+    '& .section-container:hover': {},
     '& .section-dependent': {
       border: '1px dashed gray',
     },
@@ -137,28 +134,11 @@ const useStyles = createUseStyles({
   formHead: {
     display: 'block',
     margin: '0 auto',
-    'background-color': '#EBEBEB',
-    border: '1px solid #858F96',
-    'border-radius': '4px',
-    width: '70%',
-    padding: '10px',
-    '& div': {
-      width: '30%',
-      display: 'inline-block',
-      'text-align': 'left',
-      padding: '10px',
-    },
-    '& .form-title': {
-      'text-align': 'left',
-    },
-    '& .form-description': {
-      'text-align': 'left',
-    },
-    '& h5': {
-      'font-size': '14px',
-      'line-height': '21px',
-      'font-weight': 'bold',
-    },
+    // 'background-color': '#EBEBEB',
+    // border: '1px solid #858F96',
+    width: '100%',
+    padding: '10px 20px',
+    textAlign: 'left',
   },
   formBody: {
     display: 'flex',
@@ -258,46 +238,52 @@ export default function FormBuilder({
       )}
 
       {(!mods || mods.showFormHead !== false) && (
-        <div className={classes.formHead} data-test='form-head'>
-          <div>
-            <h5 data-test='form-name-label'>{t('formNameLabel')}</h5>
-            <Input
-              value={schemaData.title || ''}
-              placeholder={t('formNamePlaceholder')}
-              type='text'
-              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-                onChange(
-                  stringify({
-                    ...schemaData,
-                    title: ev.target.value,
-                  }),
-                  uischema,
-                );
-              }}
-              className='form-title'
-            />
-          </div>
-          <div>
-            <h5 data-test='form-description-label'>
-              {t('formDescriptionLabel')}
-            </h5>
-            <Input
-              value={schemaData.description || ''}
-              placeholder={t('formDescriptionPlaceholder')}
-              type='text'
-              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                onChange(
-                  stringify({
-                    ...schemaData,
-                    description: ev.target.value,
-                  }),
-                  uischema,
-                )
-              }
-              className='form-description'
-            />
-          </div>
-        </div>
+        <Form className={classes.formHead} data-test='form-head'>
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                <Label for='formName'>{t('formNameLabel')}</Label>
+                <Input
+                  id='formName'
+                  value={schemaData.title || ''}
+                  placeholder={t('formNamePlaceholder')}
+                  type='text'
+                  onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                    onChange(
+                      stringify({
+                        ...schemaData,
+                        title: ev.target.value,
+                      }),
+                      uischema,
+                    );
+                  }}
+                  className='form-title'
+                />
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                <Label for='formDescription'>{t('formDescriptionLabel')}</Label>
+                <Input
+                  id='formDescription'
+                  value={schemaData.description || ''}
+                  placeholder={t('formDescriptionPlaceholder')}
+                  type='text'
+                  onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                    onChange(
+                      stringify({
+                        ...schemaData,
+                        description: ev.target.value,
+                      }),
+                      uischema,
+                    )
+                  }
+                  className='form-description'
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+        </Form>
       )}
       <div className={`form-body ${classes.formBody}`}>
         <DragDropContext

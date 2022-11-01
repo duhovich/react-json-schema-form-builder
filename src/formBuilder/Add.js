@@ -18,6 +18,16 @@ import type { Node } from 'react';
 import type { Mods } from './types';
 
 const useStyles = createUseStyles({
+  addButton: {
+    border: 'none',
+    margin: '0',
+    padding: '18px',
+    borderRadius: '50%',
+    'background-image': `url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 42 42' style='enable-background:new 0 0 42 42;' xml:space='preserve'%3e%3cpolygon points='42,20 22,20 22,0 20,0 20,20 0,20 0,22 20,22 20,42 22,42 22,22 42,22 '/%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3c/svg%3e")`,
+    backgroundSize: '20px',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
   addDetails: {
     '& .popover': {
       width: '300px',
@@ -56,14 +66,13 @@ export default function Add({
   return (
     <div
       style={{ display: hidden ? 'none' : 'initial' }}
-      className='local-bootstrap'
+      className='local-bootstrap add-wrapper'
     >
-      <span id={`${elementId}_add`}>
-        <FontAwesomeIcon
-          icon={faPlusSquare}
-          onClick={() => setPopoverOpen(true)}
-        />
-      </span>
+      <button
+        id={`${elementId}_add`}
+        className={classes.addButton}
+        onClick={() => setPopoverOpen(true)}
+      />
       <UncontrolledTooltip
         placement='top'
         target={`${elementId}_add`}
