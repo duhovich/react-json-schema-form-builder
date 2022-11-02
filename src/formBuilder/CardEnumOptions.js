@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -40,19 +41,7 @@ export default function CardEnumOptions({
   mods: Mods,
 }): Node {
   const classes = useStyles();
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const dropdownInputPlaceholder = fetchLabel(
-    'dropdownInputPlaceholder',
-    'Label',
-  );
-  const dropdownInputEnumPlaceholder = fetchLabel(
-    'dropdownInputEnumPlaceholder',
-    'Possible Value',
-  );
+  const { t } = useTranslation();
   const possibleValues = [];
   for (let index = 0; index < initialValues.length; index += 1) {
     const value = initialValues[index];
@@ -62,7 +51,7 @@ export default function CardEnumOptions({
       <div key={index} className={classes.cardEnumOption}>
         <Input
           value={value === undefined || value === null ? '' : value}
-          placeholder={dropdownInputEnumPlaceholder}
+          placeholder={t('dropdownInputEnumPlaceholder')}
           key={`val-${index}`}
           type={type === 'string' ? 'text' : 'number'}
           onChange={(ev: any) => {
@@ -94,7 +83,7 @@ export default function CardEnumOptions({
         />
         <Input
           value={name || ''}
-          placeholder={dropdownInputPlaceholder}
+          placeholder={t('dropdownInputPlaceholder')}
           key={`name-${index}`}
           type='text'
           onChange={(ev: any) => {

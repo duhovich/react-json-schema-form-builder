@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../Tooltip';
 import CardSelector from './CardSelector';
@@ -41,22 +42,8 @@ export default function DependencyPossibility({
   parentSchema?: any,
 }): Node {
   const [elementId] = useState(getRandomId());
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
+  const { t } = useTranslation();
 
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
   const fetchWidespread = (
     widespread: string,
     defaultWidespread: string,
@@ -71,26 +58,15 @@ export default function DependencyPossibility({
   const hasWord = fetchWidespread('hasWord', 'has');
   const theValueWord = fetchWidespread('theValueWord', 'the value');
   const aValueWord = fetchWidespread('aValueWord', 'a value');
-  const settingsModalDependenciesDisplayFollowingTooltip = fetchTooltip(
-    'settingsModalDependenciesDisplayFollowingTooltip',
-    'Choose the other form elements that depend on this one',
-  );
-  const settingsModalDependenciesDisplayFollowingLabel = fetchLabel(
-    'settingsModalDependenciesDisplayFollowingLabel',
-    'Display the following:',
-  );
-  const settingsModalDependenciesDisplayFollowingPlaceholder = fetchLabel(
-    'settingsModalDependenciesDisplayFollowingPlaceholder',
-    'Choose a dependent...',
-  );
+
   return (
     <div className='form-dependency-condition'>
       <h5>
-        {settingsModalDependenciesDisplayFollowingLabel}
+        {t('settingsModalDependenciesDisplayFollowingLabel')}
         <Tooltip
           id={`${elementId}_bulk`}
           type='help'
-          text={settingsModalDependenciesDisplayFollowingTooltip}
+          text={t('settingsModalDependenciesDisplayFollowingTooltip')}
         />
       </h5>
       <CardSelector
@@ -101,7 +77,7 @@ export default function DependencyPossibility({
         onChange={(chosenChoices: Array<string>) =>
           onChange({ ...possibility, children: [...chosenChoices] })
         }
-        placeholder={settingsModalDependenciesDisplayFollowingPlaceholder}
+        placeholder={t('settingsModalDependenciesDisplayFollowingPlaceholder')}
         path={path}
       />
       <h5>

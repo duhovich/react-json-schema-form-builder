@@ -5,6 +5,7 @@ import Select from 'react-select';
 import React, { useState } from 'react';
 import type { Node } from 'react';
 import { PlaceholderInput } from '../inputs/PlaceholderInput';
+import i18next from '../../i18n';
 
 export function CardReferenceParameterInputs({
   parameters,
@@ -59,7 +60,7 @@ function RefChoice({
 
 const referenceInputs: { [string]: FormInput } = {
   ref: {
-    displayName: 'Reference',
+    displayName: i18next.t('reference'),
     matchIf: [
       {
         types: ['null'],

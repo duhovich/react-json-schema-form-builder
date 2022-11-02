@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Popover,
   PopoverHeader,
@@ -17,6 +18,16 @@ import type { Node } from 'react';
 import type { Mods } from './types';
 
 const useStyles = createUseStyles({
+  addButton: {
+    border: 'none',
+    margin: '0',
+    padding: '18px',
+    borderRadius: '50%',
+    'background-image': `url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 42 42' style='enable-background:new 0 0 42 42;' xml:space='preserve'%3e%3cpolygon points='42,20 22,20 22,0 20,0 20,20 0,20 0,22 20,22 20,42 22,42 22,22 42,22 '/%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3c/svg%3e")`,
+    backgroundSize: '20px',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
   addDetails: {
     '& .popover': {
       width: '300px',
@@ -47,68 +58,27 @@ export default function Add({
   mods?: Mods,
 }): Node {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState('card');
   const [elementId] = useState(getRandomId());
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
 
-  const fetchTooltip = (
-    tooltipName: string,
-    defaultTooltip: string,
-  ): string => {
-    return mods &&
-      mods.tooltipDescriptions &&
-      typeof mods.tooltipDescriptions[tooltipName] === 'string'
-      ? mods.tooltipDescriptions[tooltipName]
-      : defaultTooltip;
-  };
-
-  const addTooltip = fetchTooltip('add', 'Create new form element');
-  const addPopoverHeaderLabel = fetchLabel(
-    'addPopoverHeaderLabel',
-    'Create New',
-  );
-  const addPopoverFormFullNameLabel = fetchLabel(
-    'addPopoverFormFullNameLabel',
-    'Full name',
-  );
-  const addPopoverFormElementLabel = fetchLabel(
-    'addPopoverFormElementLabel',
-    'Form element',
-  );
-  const addPopoverFormSectionLabel = fetchLabel(
-    'addPopoverFormSectionLabel',
-    'Form section',
-  );
-  const addPopoverCancelButtonLabel = fetchLabel(
-    'addPopoverCancelButtonLabel',
-    'Cancel',
-  );
-  const addPopoverCreateButtonLabel = fetchLabel(
-    'addPopoverCreateButtonLabel',
-    'Create',
-  );
   return (
     <div
       style={{ display: hidden ? 'none' : 'initial' }}
-      className='local-bootstrap'
+      className='local-bootstrap add-wrapper'
     >
-      <span id={`${elementId}_add`}>
-        <FontAwesomeIcon
-          icon={faPlusSquare}
-          onClick={() => setPopoverOpen(true)}
-        />
-      </span>
+      <button
+        id={`${elementId}_add`}
+        className={classes.addButton}
+        onClick={() => setPopoverOpen(true)}
+      />
       <UncontrolledTooltip
         placement='top'
         target={`${elementId}_add`}
         className='local-bootstrap'
       >
-        {addTooltip}
+        {t('addTooltip')}
       </UncontrolledTooltip>
       <Popover
         placement='bottom'
@@ -119,7 +89,7 @@ export default function Add({
         id={`${elementId}_add_popover`}
       >
         <PopoverHeader className='local-bootstrap'>
-          {addPopoverHeaderLabel}
+          {t('addPopoverHeaderLabel')}
         </PopoverHeader>
         <PopoverBody className='local-bootstrap'>
           <FBRadioGroup
@@ -131,22 +101,22 @@ export default function Add({
                 ? [
                     {
                       value: 'card',
-                      label: addPopoverFormElementLabel,
+                      label: t('addPopoverFormElementLabel'),
                     },
                     {
                       value: 'section',
-                      label: addPopoverFormSectionLabel,
+                      label: t('addPopoverFormSectionLabel'),
                     },
                     ...customItems,
                   ]
                 : [
                     {
                       value: 'card',
-                      label: addPopoverFormElementLabel,
+                      label: t('addPopoverFormElementLabel'),
                     },
                     {
                       value: 'section',
-                      label: addPopoverFormSectionLabel,
+                      label: t('addPopoverFormSectionLabel'),
                     },
                   ]
             }
@@ -156,7 +126,7 @@ export default function Add({
           />
           <div className='action-buttons local-bootstrap'>
             <Button onClick={() => setPopoverOpen(false)} color='secondary'>
-              {addPopoverCancelButtonLabel}
+              {t('addPopoverCancelButtonLabel')}
             </Button>
             <Button
               onClick={() => {
@@ -165,7 +135,7 @@ export default function Add({
               }}
               color='primary'
             >
-              {addPopoverCreateButtonLabel}
+              {t('addPopoverCreateButtonLabel')}
             </Button>
           </div>
         </PopoverBody>

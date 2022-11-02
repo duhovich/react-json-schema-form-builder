@@ -11,6 +11,7 @@ import type {
   DataOptions,
   DataType,
 } from './types';
+import i18next from '../i18n';
 
 // parse in either YAML or JSON
 export function parse(text: string): any {
@@ -1004,27 +1005,21 @@ export function addSectionObj(parameters: {
   });
 
   const i = getIdFromElementsBlock(newElementObjArr);
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const newElementDefaultSectionLabel = fetchLabel(
-    'newElementDefaultSectionLabel',
-    `New Input ${i}`,
-  );
 
   const newElement = ({
     name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
-      title: `${newElementDefaultSectionLabel} ${i}`,
+      title: `${i18next.t('newElementDefaultSectionLabel')} ${i}`,
       type: 'object',
       default: '',
     },
     uiOptions: {},
     propType: 'section',
-    schema: { title: `${newElementDefaultSectionLabel} ${i}`, type: 'object' },
+    schema: {
+      title: `${i18next.t('newElementDefaultSectionLabel')} ${i}`,
+      type: 'object',
+    },
     uischema: {},
     neighborNames: [],
   }: ElementProps);
@@ -1760,21 +1755,12 @@ export function getNewElementDefaultDataOptions(
   i: number,
   mods?: Mods,
 ): DataOptions {
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const newElementDefaultInputLabel = fetchLabel(
-    'newElementDefaultInputLabel',
-    `New Input ${i}`,
-  );
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
     const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
     return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
   } else {
     return {
-      title: `${newElementDefaultInputLabel} ${i}`,
+      title: `${i18next.t('newElementDefaultInputLabel')} ${i}`,
       type: 'string',
       default: '',
     };

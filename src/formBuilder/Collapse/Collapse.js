@@ -5,19 +5,40 @@ import type { Node } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Collapse as RSCollapse } from 'reactstrap';
 import classnames from 'classnames';
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import FontAwesomeIcon from '../FontAwesomeIcon';
 
 const useStyles = createUseStyles({
   collapseElement: {
     '& .disabled': { '.toggle-collapse': { cursor: 'default' } },
-    '& h4': { marginTop: '7px', padding: '13px 10px 10px 10px' },
+    // '& h4': { marginTop: '7px', padding: '13px 10px 10px 10px' },
+    '& .collapse-head': { display: 'flex', 'align-items': 'center' },
     '& .toggle-collapse': {
-      fontSize: '2.3rem',
+      position: 'relative',
+      margin: '10px',
+      padding: '24px',
       cursor: 'pointer',
-      marginLeft: '33px',
-      '& .fa-caret-right': {
-        marginRight: '9px',
+      'border-radius': '50%',
+      border: 'none',
+      background: 'white',
+      '&:after': {
+        position: 'absolute',
+        width: '20px',
+        height: '20px',
+        content: "''",
+
+        'background-image': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")`,
+        'background-repeat': 'no-repeat',
+        'background-size': '20px',
+        right: '14px',
+        top: '14.5px',
+        transition: 'transform .2s ease-in-out',
+      },
+      '&.open': {
+        '&:after': {
+          transform: 'rotate(-180deg)',
+        },
+      },
+      '&:hover': {
+        background: 'rgba(0,0,0,.05)',
       },
     },
   },
@@ -47,14 +68,12 @@ export default function Collapse(props: Props): Node {
 
   return (
     <div className={classes}>
-      <div className='d-flex'>
-        <span className='toggle-collapse'>
-          <FontAwesomeIcon
-            onClick={!props.disableToggle ? props.toggleCollapse : () => {}}
-            icon={props.isOpen ? faCaretDown : faCaretRight}
-          />
-        </span>
-        <h4>{props.title}</h4>
+      <div className='collapse-head'>
+        <button
+          className={props.isOpen ? 'toggle-collapse open' : 'toggle-collapse'}
+          onClick={!props.disableToggle ? props.toggleCollapse : () => {}}
+        ></button>
+        {props.title}
       </div>
       <RSCollapse isOpen={props.isOpen}>
         <div>{props.children}</div>

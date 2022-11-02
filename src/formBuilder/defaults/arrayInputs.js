@@ -1,6 +1,8 @@
 // @flow
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from '../../i18n';
 import { Input } from 'reactstrap';
 import {
   excludeKeys,
@@ -27,33 +29,14 @@ function CardArrayParameterInputs({
   parameters: Parameters,
   onChange: ({ [string]: any }) => void,
 }) {
-  const fetchLabel = (labelName: string, defaultLabel: string): string => {
-    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-      ? mods.labels[labelName]
-      : defaultLabel;
-  };
-  const settingsModalInputArrayMinItemsLabel = fetchLabel(
-    'settingsModalInputArrayMinItemsLabel',
-    'Minimum Items',
-  );
-  const settingsModalInputArrayMinItemsPlaceholder = fetchLabel(
-    'settingsModalInputArrayMinItemsPlaceholder',
-    'ex: 2',
-  );
-  const settingsModalInputArrayMaxItemsLabel = fetchLabel(
-    'settingsModalInputArrayMaxItemsLabel',
-    'Maximum Items',
-  );
-  const settingsModalInputArrayMaxItemsPlaceholder = fetchLabel(
-    'settingsModalInputArrayMaxItemsPlaceholder',
-    'ex: 2',
-  );
+  const { t } = useTranslation();
+
   return (
     <div>
-      <h4>{settingsModalInputArrayMinItemsLabel}</h4>
+      <h4>{t('settingsModalInputArrayMinItemsLabel')}</h4>
       <Input
         value={parameters.minItems || ''}
-        placeholder={settingsModalInputArrayMinItemsPlaceholder}
+        placeholder={t('settingsModalInputArrayMinItemsPlaceholder')}
         key='minimum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -64,10 +47,10 @@ function CardArrayParameterInputs({
         }}
         className='card-modal-number'
       />
-      <h4>{settingsModalInputArrayMaxItemsLabel}</h4>
+      <h4>{t('settingsModalInputArrayMaxItemsLabel')}</h4>
       <Input
         value={parameters.maxItems || ''}
-        placeholder={settingsModalInputArrayMaxItemsPlaceholder}
+        placeholder={t('settingsModalInputArrayMaxItemsPlaceholder')}
         key='maximum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
@@ -97,6 +80,7 @@ function getInnerCardComponent({
     mods?: Mods,
   }) {
     const [elementId] = useState(getRandomId);
+    const { t } = useTranslation();
     const newDataProps = {};
     const newUiProps = {};
     const allFormInputs = excludeKeys(
@@ -127,15 +111,7 @@ function getInnerCardComponent({
     if (parameters.type !== 'array') {
       return <h4>Not an array </h4>;
     }
-    const fetchLabel = (labelName: string, defaultLabel: string): string => {
-      return mods && mods.labels && typeof mods.labels[labelName] === 'string'
-        ? mods.labels[labelName]
-        : defaultLabel;
-    };
-    const settingsModalInputArraySectionCheckboxLabel = fetchLabel(
-      'settingsModalInputArraySectionCheckboxLabel',
-      'Section',
-    );
+
     return (
       <div className='card-array'>
         <FBCheckbox
@@ -159,7 +135,7 @@ function getInnerCardComponent({
             }
           }}
           isChecked={newDataProps.items.type === 'object'}
-          label={settingsModalInputArraySectionCheckboxLabel}
+          label={t('settingsModalInputArraySectionCheckboxLabel')}
           id={`${elementId}_issection`}
         />
         {generateElementComponentsFromSchemas({
@@ -196,7 +172,7 @@ const defaultFormInputs = ({
   ...numberInputs,
 }: { [string]: FormInput });
 defaultFormInputs.array = {
-  displayName: 'Array',
+  displayName: i18next.t('array'),
   matchIf: [
     {
       types: ['array'],
@@ -213,7 +189,7 @@ defaultFormInputs.array = {
 
 const ArrayInputs: { [string]: FormInput } = {
   array: {
-    displayName: 'Array',
+    displayName: i18next.t('array'),
     matchIf: [
       {
         types: ['array'],
