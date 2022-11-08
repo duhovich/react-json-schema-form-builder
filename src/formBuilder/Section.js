@@ -211,6 +211,7 @@ export default function Section({
             </span>
             <span className='arrows'>
               <button
+                type='button'
                 id={`${elementId}_moveupbiginfo`}
                 className='up'
                 onClick={() => (onMoveUp ? onMoveUp() : {})}
@@ -223,6 +224,7 @@ export default function Section({
                 {t('moveElementUpButtonTooltip')}
               </UncontrolledTooltip>
               <button
+                type='button'
                 id={`${elementId}_movedownbiginfo`}
                 className='down'
                 onClick={() => (onMoveDown ? onMoveDown() : {})}
@@ -473,6 +475,7 @@ export default function Section({
           </div>
           <div className='section-interactions '>
             <button
+              type='button'
               id={`${elementId}_editinfo`}
               className={classes.settingsButton}
               onClick={() => setModalOpen(true)}
@@ -486,6 +489,7 @@ export default function Section({
             </UncontrolledTooltip>
 
             <button
+              type='button'
               id={`${elementId}_trashinfo`}
               className={classes.trashButton}
               onClick={() => (onDelete ? onDelete() : {})}
