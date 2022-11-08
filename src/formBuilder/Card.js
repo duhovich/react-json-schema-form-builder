@@ -174,6 +174,7 @@ export default function Card({
             </span>
             <span className='arrows'>
               <button
+                type='button'
                 id={`${elementId}_moveupbiginfo`}
                 className='up'
                 onClick={() => (onMoveUp ? onMoveUp() : {})}
@@ -186,6 +187,7 @@ export default function Card({
                 {t('moveElementUpButtonTooltip')}
               </UncontrolledTooltip>
               <button
+                type='button'
                 id={`${elementId}_movedownbiginfo`}
                 className='down'
                 onClick={() => (onMoveDown ? onMoveDown() : {})}
@@ -216,6 +218,7 @@ export default function Card({
         </div>
         <div className={`${classes.cardInteractions} local-bootstrap`}>
           <button
+            type='button'
             id={`${elementId}_editinfo`}
             className={classes.settingsButton}
             onClick={() => setModalOpen(true)}
@@ -228,6 +231,7 @@ export default function Card({
             {t('additionalConfTooltip')}
           </UncontrolledTooltip>
           <button
+            type='button'
             id={`${elementId}_trashinfo`}
             className={classes.trashButton}
             onClick={onDelete || (() => {})}

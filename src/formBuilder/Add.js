@@ -69,6 +69,7 @@ export default function Add({
       className='local-bootstrap add-wrapper'
     >
       <button
+        type="button"
         id={`${elementId}_add`}
         className={classes.addButton}
         onClick={() => setPopoverOpen(true)}

@@ -70,6 +70,7 @@ export default function Collapse(props: Props): Node {
     <div className={classes}>
       <div className='collapse-head'>
         <button
+          type="button"
           className={props.isOpen ? 'toggle-collapse open' : 'toggle-collapse'}
           onClick={!props.disableToggle ? props.toggleCollapse : () => {}}
         ></button>
