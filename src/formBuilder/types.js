@@ -125,6 +125,7 @@ export type Mods = {|
     [string]: FormInputType<Mods>,
     ...
   },
+  customFormats?: any,
   tooltipDescriptions?: {|
     add?: string,
     moveElementUpButtonTooltip?: string,

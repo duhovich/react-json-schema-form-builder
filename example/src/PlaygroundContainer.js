@@ -623,6 +623,10 @@ const customItems = [
   },
 ];
 
+const customFormats = {
+  link: 'тест',
+};
+
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
   const [uischema, setUischema] = React.useState(
@@ -655,6 +659,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         lang={'json'}
         schema={schema}
         uischema={uischema}
+        customFormats={customFormats}
         customFields={customFields}
         customItems={customItems}
         mods={mods}

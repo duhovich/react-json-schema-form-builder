@@ -171,6 +171,7 @@ export default function FormBuilder({
   onChange,
   mods,
   className,
+  customFormats,
   customFields,
   customItems,
   isShowAlerts,
@@ -180,6 +181,7 @@ export default function FormBuilder({
   isShowAlerts: Boolean,
   customFields: Array,
   customItems?: Array,
+  customFormats?: any,
   schema: string,
   uischema: string,
   onChange: (string, string) => any,
@@ -199,6 +201,10 @@ export default function FormBuilder({
     ),
     mods && mods.deactivatedFormInputs,
   );
+  if (customFormats) {
+    if (!mods) mods = {};
+    mods.customFormats = customFormats;
+  }
 
   if (language) {
     if (i18n.language !== language && i18n.languages.includes(language)) {

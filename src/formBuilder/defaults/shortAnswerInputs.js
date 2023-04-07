@@ -42,6 +42,7 @@ function CardShortAnswerParameterInputs({
     hostname: t('settingsModalInputFormatItemHostname'),
     uri: t('settingsModalInputFormatItemURI'),
     regex: t('settingsModalInputFormatItemRegEx'),
+    ...((mods && mods.customFormats) || {}),
   };
   const autoDictionary = {
     '': noneWord,
