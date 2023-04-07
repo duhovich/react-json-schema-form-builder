@@ -90,7 +90,9 @@ const useStyles = createUseStyles({
   },
   cardInteractions: {
     margin: '.5em 1.5em',
-    textAlign: 'left',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     '& .fb-checkbox': { display: 'inline-block' },
     '& .interactions-left, & .interactions-right': {
       display: 'inline-block',
@@ -217,32 +219,34 @@ export default function Card({
           />
         </div>
         <div className={`${classes.cardInteractions} local-bootstrap`}>
-          <button
-            type='button'
-            id={`${elementId}_editinfo`}
-            className={classes.settingsButton}
-            onClick={() => setModalOpen(true)}
-          />
-          <UncontrolledTooltip
-            className='local-bootstrap'
-            placement='top'
-            target={`${elementId}_editinfo`}
-          >
-            {t('additionalConfTooltip')}
-          </UncontrolledTooltip>
-          <button
-            type='button'
-            id={`${elementId}_trashinfo`}
-            className={classes.trashButton}
-            onClick={onDelete || (() => {})}
-          />
-          <UncontrolledTooltip
-            className='local-bootstrap'
-            placement='top'
-            target={`${elementId}_trashinfo`}
-          >
-            {t('deleteFormElTooltip')}
-          </UncontrolledTooltip>
+          <div className={classes.cardInteractionsButtons}>
+            <button
+              type='button'
+              id={`${elementId}_editinfo`}
+              className={classes.settingsButton}
+              onClick={() => setModalOpen(true)}
+            />
+            <UncontrolledTooltip
+              className='local-bootstrap'
+              placement='top'
+              target={`${elementId}_editinfo`}
+            >
+              {t('additionalConfTooltip')}
+            </UncontrolledTooltip>
+            <button
+              type='button'
+              id={`${elementId}_trashinfo`}
+              className={classes.trashButton}
+              onClick={onDelete || (() => {})}
+            />
+            <UncontrolledTooltip
+              className='local-bootstrap'
+              placement='top'
+              target={`${elementId}_trashinfo`}
+            >
+              {t('deleteFormElTooltip')}
+            </UncontrolledTooltip>
+          </div>
           <FBCheckbox
             onChangeValue={() =>
               onChange({
